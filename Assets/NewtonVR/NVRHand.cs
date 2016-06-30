@@ -728,7 +728,7 @@ namespace NewtonVR
     public enum VisibilityLevel
     {
         Invisible = 0,
-        Ghost = 10,
+        Ghost = 50,
         Visible = 100,
     }
 
