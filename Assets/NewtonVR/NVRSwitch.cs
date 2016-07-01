@@ -8,6 +8,7 @@ namespace NewtonVR
         public bool CurrentState = true;
         public bool LastState = true;
         private bool FixedState = true;
+        public string switchName = "switch";
 
         public Transform OnButton;
         public Renderer OnButtonRenderer;
@@ -66,14 +67,16 @@ namespace NewtonVR
             if (FixedState == true)
             {
                 this.transform.localEulerAngles = Vector3.zero;
-                OnButtonRenderer.material.color = Color.yellow;
+                OnButtonRenderer.material.color = Color.green;
                 OffButtonRenderer.material.color = Color.white;
+                SendMessage("OnSwitchEnabled", switchName);
             }
             else
             {
                 this.transform.localEulerAngles = new Vector3(0, 0, -15);
                 OnButtonRenderer.material.color = Color.white;
                 OffButtonRenderer.material.color = Color.red;
+                SendMessage("OnSwitchDisabled", switchName);
             }
 
             Rigidbody.angularVelocity = Vector3.zero;
