@@ -1,0 +1,197 @@
+fileFormatVersion: 2
+guid: 0af4dbc2165a04246b84da3f316110d7
+timeCreated: 1467433829
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: OUTSIDE_0
+    21300002: OUTSIDE_1
+    21300004: OUTSIDE_2
+    21300006: OUTSIDE_3
+    21300008: OUTSIDE_4
+    21300010: OUTSIDE_5
+    21300012: OUTSIDE_6
+    21300014: OUTSIDE_7
+    21300016: OUTSIDE_8
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: OUTSIDE_0
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 520
+        width: 51
+        height: 138
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25.5, y: 138}
+        - {x: -25.5, y: 0}
+        - {x: 25.5, y: 0}
+        - {x: 25.5, y: 138}
+    - name: OUTSIDE_1
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 520
+        width: 488
+        height: 138
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -244, y: 138}
+        - {x: -244, y: 0}
+        - {x: 244, y: 0}
+        - {x: 244, y: 138}
+    - name: OUTSIDE_2
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 396
+        width: 165
+        height: 112
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -82.5, y: 112}
+        - {x: -82.5, y: 0}
+        - {x: 82.5, y: 0}
+        - {x: 82.5, y: 112}
+    - name: OUTSIDE_3
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 107
+        width: 348
+        height: 278
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -174, y: 278}
+        - {x: -174, y: 0}
+        - {x: 174, y: 0}
+        - {x: 174, y: 278}
+    - name: OUTSIDE_4
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 35
+        width: 488
+        height: 294
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -244, y: 294}
+        - {x: -244, y: 0}
+        - {x: 244, y: 0}
+        - {x: 244, y: 294}
+    - name: OUTSIDE_5
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 41
+        width: 55
+        height: 42
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27.5, y: 42}
+        - {x: -27.5, y: 0}
+        - {x: 27.5, y: 0}
+        - {x: 27.5, y: 42}
+    - name: OUTSIDE_6
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 41
+        width: 67
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -33.5, y: 34}
+        - {x: -33.5, y: 0}
+        - {x: 33.5, y: 0}
+        - {x: 33.5, y: 34}
+    - name: OUTSIDE_7
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 41
+        width: 61
+        height: 42
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30.5, y: 42}
+        - {x: -30.5, y: 0}
+        - {x: 30.5, y: 0}
+        - {x: 30.5, y: 42}
+    - name: OUTSIDE_8
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 41
+        width: 86
+        height: 21
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
