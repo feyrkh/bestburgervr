@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ToggleShortHumanMode : MonoBehaviour {
-    public NewtonVR.NVRSwitch connectedSwitch;
+    public NewtonVR.NVRSwitch connectedSwitch = null;
 
     public void OnSwitchEnabled(string switchName)
     {
