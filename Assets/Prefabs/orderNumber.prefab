@@ -63,7 +63,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 414800}
   - 54: {fileID: 5472552}
-  - 114: {fileID: 11410790}
+  - 114: {fileID: 11491048}
   m_Layer: 0
   m_Name: orderNumber
   m_TagString: Order Placard
@@ -276,7 +276,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11410790
+--- !u!114 &11491048
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

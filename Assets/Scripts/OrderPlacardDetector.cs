@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class OrderPlacardDetector : MonoBehaviour {
-    Vector3 startPoint;
-	Vector3 movementPerSecond = new Vector3(0, 0.1f, 0);
+    public Vector3 startPoint;
+	Vector3 movementPerSecond = new Vector3(0, 0.2f, 0);
     public Color detectedColor;
     public Color notDetectedColor;
     public int placardsInArea = 0;
@@ -13,6 +13,7 @@ public class OrderPlacardDetector : MonoBehaviour {
 	private static float placardDetectionInterval = 0.2f;
 	public CompletedBurger completedBurgerPrefab;
 	public IngredientsList completedBurgerSignPrefab;
+    public List<GameObject> orderPlacards = new List<GameObject>();
 
 	// Use this for initialization
 	void Start () {
@@ -20,11 +21,15 @@ public class OrderPlacardDetector : MonoBehaviour {
 		StartCoroutine ("CheckForPlacard");
 	}
 
-	IEnumerator ScanUpward() {
-		List<GameObject> ingredients = new List<GameObject> ();
+	IEnumerator ScanUpward()
+    {
+        transform.localPosition = startPoint;
+        List<GameObject> ingredients = new List<GameObject> ();
 		float secondsSinceLastIngredient = 0;
 		bool foundNewIngredients = false;
-		do {
+        GameObject firstPlacard = orderPlacards[0];
+
+        do {
 			foundNewIngredients = false;
 			Collider[] foundItems = Physics.OverlapBox(transform.position, transform.lossyScale, transform.rotation);
 			foreach(Collider foundItem in foundItems) {
@@ -44,14 +49,17 @@ public class OrderPlacardDetector : MonoBehaviour {
 			yield return null;
 		} while(secondsSinceLastIngredient < 0.5f);
 		transform.localPosition = startPoint;
-		FinalizeBurger (ingredients);
+        ingredients.TrimExcess();
+        if (ingredients.Capacity != 0)
+        {
+            Destroy(firstPlacard.transform.parent.gameObject);
+            FinalizeBurger(ingredients);
+        }
 	}
 
 	void FinalizeBurger(List<GameObject> ingredients) {
-		Debug.Log ("Finalizing burger");
-		ingredients.TrimExcess();
-		if(ingredients.Capacity == 0) return;
-		GameObject previousIngredient = ingredients[0];
+        Debug.Log("Finalizing burger");
+        GameObject previousIngredient = ingredients[0];
 		Vector3 baseCenterAxis = Vector3.zero;
 		Vector3 previousCenterAxis =  Vector3.zero;
 		float totalDistanceFromBaseCenterAxis = 0;
@@ -62,9 +70,11 @@ public class OrderPlacardDetector : MonoBehaviour {
 		foreach (GameObject i in ingredients) {
 			Debug.Log (i.GetComponent<Ingredient>().ingredientName);
 			ingredientNames[idx++] = i.GetComponent<Ingredient>().ingredientName;
+            NewtonVR.NVRInteractables.Deregister(i.GetComponent<NewtonVR.NVRInteractable>());
 			Destroy (i.GetComponent<Ingredient> ());
-			Destroy(i.GetComponent<Rigidbody>());
-			if (baseCenterAxis == Vector3.zero) {
+            Destroy(i.GetComponent<Rigidbody>());
+           // Destroy(i.GetComponent<NewtonVR.NVRInteractableItem>());
+            if (baseCenterAxis == Vector3.zero) {
 				baseCenterAxis = i.transform.position;
 				previousCenterAxis = baseCenterAxis;
 			} else {
@@ -87,16 +97,22 @@ public class OrderPlacardDetector : MonoBehaviour {
 		completedBurger.prevAxisSloppiness = totalDistanceFromPreviousCenterAxis/divideBy;
 		foreach (GameObject i in ingredients) {
 			i.transform.SetParent (completedBurger.transform);
-		}
-		IngredientsList toothpick = (IngredientsList) Instantiate (completedBurgerSignPrefab, previousIngredient.transform.localPosition, Quaternion.identity);
+        }
+        completedBurger.gameObject.SetActive(false);
+        completedBurger.gameObject.SetActive(true);
+
+
+        IngredientsList toothpick = (IngredientsList) Instantiate (completedBurgerSignPrefab, previousIngredient.transform.localPosition, Quaternion.identity);
 		toothpick.transform.SetParent (completedBurger.transform);
 		toothpick.transform.localPosition = previousIngredient.transform.localPosition + new Vector3 (0, previousIngredient.transform.localScale.y+0.04f, 0);
 		toothpick.SetIngredientList (ingredientNames);
 		toothpick.transform.Rotate (Random.Range (-10, 10), Random.Range (-10, 10), Random.Range (-10, 10));
 
+        completedBurger.gameObject.AddComponent<NewtonVR.NVRInteractableItem>();
 	}
+    
 
-	IEnumerator CheckForPlacard()
+IEnumerator CheckForPlacard()
     {
 		while (true) {
 			if (placardsInArea > 0) {
@@ -120,6 +136,7 @@ public class OrderPlacardDetector : MonoBehaviour {
             {
                 this.GetComponent<MeshRenderer>().material.color = detectedColor;
             }
+            orderPlacards.Add(other.gameObject);
             placardsInArea++;
         }
     }
@@ -129,6 +146,7 @@ public class OrderPlacardDetector : MonoBehaviour {
         if (other.tag == "Order Placard")
         {
             placardsInArea--;
+            orderPlacards.Remove(other.gameObject);
             if (placardsInArea == 0)
             {
                 this.GetComponent<MeshRenderer>().material.color = notDetectedColor;

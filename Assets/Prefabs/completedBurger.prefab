@@ -8,8 +8,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 435984}
-  - 54: {fileID: 5479094}
   - 114: {fileID: 11434274}
+  - 54: {fileID: 5497516}
   m_Layer: 0
   m_Name: completedBurger
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!54 &5479094
+--- !u!54 &5497516
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

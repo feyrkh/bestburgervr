@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredientListBottomPosition: {fileID: 416440}
-  signPrefab: {fileID: 0}
+  signPrefab: {fileID: 429084}
   labelPrefab: {fileID: 2379162, guid: 86ead94e5a4a70743a8f268b49050136, type: 2}
   iconPrefix: 
   testIngredientList: 0

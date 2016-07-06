@@ -10,11 +10,9 @@ GameObject:
   - 4: {fileID: 499698}
   - 33: {fileID: 3375348}
   - 23: {fileID: 2331896}
-  - 114: {fileID: 11440256}
   - 54: {fileID: 5498346}
   - 65: {fileID: 6584864}
   - 114: {fileID: 11450632}
-  - 114: {fileID: 11451250}
   m_Layer: 0
   m_Name: condiment_glob_mustard
   m_TagString: Untagged
@@ -95,21 +93,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11440256
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 118900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eced28e4e02186042a1380107ad2962d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thickness: 0.0001
-  condimentAmount: 0.03
-  maxCondimentAmount: 0.5
-  condimentName: 6d757374617264
 --- !u!114 &11450632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,25 +105,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0.94482756, g: 1, b: 0, a: 0}
---- !u!114 &11451250
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 118900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa4a39dec1a23a043a14d554ccce8fe0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Rigidbody: {fileID: 0}
-  CanAttach: 0
-  DisableKinematicOnAttach: 1
-  EnableKinematicOnDetach: 0
-  DropDistance: 1
-  EnableGravityOnDetach: 1
-  AttachedHand: {fileID: 0}
-  InteractionPoint: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

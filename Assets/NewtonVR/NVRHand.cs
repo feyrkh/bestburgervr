@@ -10,13 +10,13 @@ namespace NewtonVR
 {
     public class NVRHand : MonoBehaviour
     {
-        private Valve.VR.EVRButtonId HoldButton = EVRButtonId.k_EButton_Grip;
+        private Valve.VR.EVRButtonId HoldButton = EVRButtonId.k_EButton_SteamVR_Trigger;
         public bool HoldButtonDown = false;
         public bool HoldButtonUp = false;
         public bool HoldButtonPressed = false;
         public float HoldButtonAxis = 0f;
 
-        private Valve.VR.EVRButtonId UseButton = EVRButtonId.k_EButton_SteamVR_Trigger;
+        private Valve.VR.EVRButtonId UseButton = EVRButtonId.k_EButton_Grip;
         public bool UseButtonDown = false;
         public bool UseButtonUp = false;
         public bool UseButtonPressed = false;
@@ -486,7 +486,7 @@ namespace NewtonVR
 
         protected virtual void OnEnable()
         {
-            if (this.gameObject.activeInHierarchy)
+            //if (this.gameObject.activeInHierarchy)
                 StartCoroutine(DoInitialize());
         }
 
@@ -581,7 +581,7 @@ namespace NewtonVR
         {
             do
             {
-                yield return null; //wait for render model to be initialized
+                yield return new WaitForSeconds(1); //wait for render model to be initialized
             } while (RenderModelInitialized == false && CustomModel == null);
 
             Rigidbody = this.GetComponent<Rigidbody>();
