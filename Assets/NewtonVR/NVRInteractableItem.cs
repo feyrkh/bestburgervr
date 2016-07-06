@@ -45,6 +45,11 @@ namespace NewtonVR
                 if (angle > 180)
                     angle -= 360;
 
+                if (Rigidbody == null)
+                {
+                    Rigidbody = this.GetComponent<Rigidbody>();
+                    if (Rigidbody == null) Rigidbody = this.gameObject.AddComponent<Rigidbody>();
+                }
                 if (angle != 0)
                 {
                     Vector3 AngularTarget = angle * axis;

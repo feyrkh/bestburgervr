@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Order Placard
   - No Replication
+  - Food
   layers:
   - Default
   - TransparentFX

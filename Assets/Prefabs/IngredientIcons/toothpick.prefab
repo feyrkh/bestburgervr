@@ -201,6 +201,8 @@ MonoBehaviour:
   signPrefab: {fileID: 429084}
   labelPrefab: {fileID: 2379162, guid: 86ead94e5a4a70743a8f268b49050136, type: 2}
   iconPrefix: 
+  ingredients: []
+  expectedHeight: 0.01
   testIngredientList: 0
 --- !u!1001 &100100000
 Prefab:

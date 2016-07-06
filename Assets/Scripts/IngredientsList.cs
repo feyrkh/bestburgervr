@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class IngredientsList : MonoBehaviour {
 	public Transform ingredientListBottomPosition = null;
 	public Transform signPrefab = null;
 	public MeshRenderer labelPrefab = null;
 	public string iconPrefix = "";
+    public string[] ingredients = null;
+    public float expectedHeight = 1f;
 
 	public bool testIngredientList = false;
 
@@ -15,15 +18,22 @@ public class IngredientsList : MonoBehaviour {
 		Texture texture = Resources.Load<Texture> (iconPrefix+ingredient);
 		ingredientLabel.material.mainTexture = texture;
 		ingredientLabel.transform.SetParent (transform);
+        if (texture == null) Debug.LogError("Invalid texture name: " + iconPrefix + ingredient, gameObject);
 		float w = texture.width;
 		float h = texture.height;
 		float aspect = w / (float)h;
-		ingredientLabel.transform.localScale = new Vector3 (aspect, 1, 1);
+		ingredientLabel.transform.localScale = new Vector3 (aspect * expectedHeight, expectedHeight, 1);
 	}
 
-	public void SetIngredientList(string[] ingredients) {
+    public string[] GetIngredientList()
+    {
+        return ingredients;
+    }
+
+    public void SetIngredientList(string[] ingredients) {
 		Vector3 labelPosition = ingredientListBottomPosition.localPosition;
 		MeshRenderer ingredientLabel;
+        this.ingredients = ingredients;
 		int i = 0;
 		int scale = ingredients.Length + 2;
 		foreach (string ingredient in ingredients) {
@@ -37,14 +47,14 @@ public class IngredientsList : MonoBehaviour {
 				continue;
 			}
 			BuildIngredientLabel (ingredient, labelPosition, out ingredientLabel);		
-			ingredientLabel.transform.localPosition = labelPosition + new Vector3(0,0,-0.3f);
+			ingredientLabel.transform.localPosition = labelPosition + new Vector3(0,0,-0.01f);
 			BuildIngredientLabel (ingredient,  labelPosition, out ingredientLabel);		
-			ingredientLabel.transform.localPosition = labelPosition + new Vector3(0,0,0.3f);
+			ingredientLabel.transform.localPosition = labelPosition + new Vector3(0,0, 0.01f);
 			ingredientLabel.transform.Rotate (new Vector3 (0, 180, 0));
-			labelPosition = labelPosition + new Vector3 (0, 1.05f, 0);
+			labelPosition = labelPosition + new Vector3 (0, ingredientLabel.transform.localScale.y, 0);
 		}
-		signPrefab.transform.localScale = new Vector3 (signPrefab.transform.localScale.x, scale, signPrefab.transform.localScale.z);
-		signPrefab.transform.localPosition = new Vector3 (0, scale / 2, 0);
+		signPrefab.transform.localScale = new Vector3 (signPrefab.transform.localScale.x, scale * expectedHeight, signPrefab.transform.localScale.z);
+		//signPrefab.transform.localPosition = new Vector3 (0, scale * expectedHeight / 2, 0);
 	}
 
 	// Use this for initialization
@@ -62,7 +72,4 @@ public class IngredientsList : MonoBehaviour {
 		}
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	}
 }

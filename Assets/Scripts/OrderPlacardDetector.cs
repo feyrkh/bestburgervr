@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class OrderPlacardDetector : MonoBehaviour {
     public Vector3 startPoint;
-	Vector3 movementPerSecond = new Vector3(0, 0.2f, 0);
+	public Vector3 movementPerSecond = new Vector3(0, 0.2f, 0);
     public Color detectedColor;
     public Color notDetectedColor;
     public int placardsInArea = 0;
