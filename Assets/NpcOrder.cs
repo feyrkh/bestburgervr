@@ -28,7 +28,8 @@ public class NpcOrder : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         Debug.Log("Collision with an NPC", other);
-        if(other.transform.parent.gameObject.CompareTag("Food"))
+        
+        if(other.transform.parent != null && other.transform.parent.gameObject.CompareTag("Food"))
         {
             Debug.Log("Received a food item, just consuming it", this);
             Destroy(other.transform.parent.gameObject);

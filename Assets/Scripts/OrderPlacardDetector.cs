@@ -52,12 +52,11 @@ public class OrderPlacardDetector : MonoBehaviour {
         ingredients.TrimExcess();
         if (ingredients.Capacity != 0)
         {
-            Destroy(firstPlacard.transform.parent.gameObject);
-            FinalizeBurger(ingredients);
+            FinalizeBurger(transform.parent.gameObject, ingredients);
         }
 	}
 
-	void FinalizeBurger(List<GameObject> ingredients) {
+	void FinalizeBurger(GameObject burgerScanner, List<GameObject> ingredients) {
         Debug.Log("Finalizing burger");
         GameObject previousIngredient = ingredients[0];
 		Vector3 baseCenterAxis = Vector3.zero;
@@ -65,7 +64,10 @@ public class OrderPlacardDetector : MonoBehaviour {
 		float totalDistanceFromBaseCenterAxis = 0;
 		float totalDistanceFromPreviousCenterAxis = 0;
 
-		string[] ingredientNames = new string[ingredients.Capacity];
+
+        Destroy(burgerScanner.GetComponent<Ingredient>());
+        Destroy(burgerScanner.GetComponent<Rigidbody>());
+        string[] ingredientNames = new string[ingredients.Capacity];
 		int idx = 0;
 		foreach (GameObject i in ingredients) {
 			Debug.Log (i.GetComponent<Ingredient>().ingredientName);
@@ -91,7 +93,8 @@ public class OrderPlacardDetector : MonoBehaviour {
 		}
 		CompletedBurger completedBurger = (CompletedBurger)Instantiate (completedBurgerPrefab, transform.position, Quaternion.identity);
 		completedBurger.ingredients = ingredientNames;
-		int divideBy = Mathf.Max(ingredients.Capacity - 1, 1);
+        burgerScanner.transform.SetParent(completedBurger.transform);
+        int divideBy = Mathf.Max(ingredients.Capacity - 1, 1);
 
 		completedBurger.baseAxisSloppiness = totalDistanceFromBaseCenterAxis/divideBy;
 		completedBurger.prevAxisSloppiness = totalDistanceFromPreviousCenterAxis/divideBy;
