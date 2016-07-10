@@ -104,13 +104,13 @@ public class OrderPlacardDetector : MonoBehaviour {
         completedBurger.gameObject.SetActive(false);
         completedBurger.gameObject.SetActive(true);
 
-
+        /*
         IngredientsList toothpick = (IngredientsList) Instantiate (completedBurgerSignPrefab, previousIngredient.transform.localPosition, Quaternion.identity);
 		toothpick.transform.SetParent (completedBurger.transform);
 		toothpick.transform.localPosition = previousIngredient.transform.localPosition + new Vector3 (0, previousIngredient.transform.localScale.y+0.04f, 0);
 		toothpick.SetIngredientList (ingredientNames);
 		toothpick.transform.Rotate (Random.Range (-10, 10), Random.Range (-10, 10), Random.Range (-10, 10));
-
+        */
         completedBurger.gameObject.AddComponent<NewtonVR.NVRInteractableItem>();
 	}
     

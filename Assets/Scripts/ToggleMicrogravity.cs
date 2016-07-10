@@ -1,22 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ToggleShortHumanMode : MonoBehaviour {
+public class ToggleMicrogravity : MonoBehaviour {
     public NewtonVR.NVRSwitch connectedSwitch = null;
 
     public void OnSwitchEnabled(string switchName)
     {
-        if (switchName == connectedSwitch.switchName)
-        {
-            SetShortHumanMode(true);
-        }
+        Physics.gravity = new Vector3(0, -0.01f, 0);
     }
     public void OnSwitchDisabled(string switchName)
     {
-        if (switchName == connectedSwitch.switchName)
-        {
-            SetShortHumanMode(false);
-        }
+        Physics.gravity = new Vector3(0, -9.8f, 0);
     }
 
     public void SetShortHumanMode(bool enabled)
@@ -26,7 +20,7 @@ public class ToggleShortHumanMode : MonoBehaviour {
 
         if (enabled)
         {
-            player.transform.localScale = new Vector3(1, 1.25f, 1);  
+            player.transform.localScale = new Vector3(1, 1.5f, 1);  
         } else
         {
             player.transform.localScale = new Vector3(1, 1, 1);

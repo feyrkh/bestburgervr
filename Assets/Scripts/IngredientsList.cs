@@ -9,6 +9,7 @@ public class IngredientsList : MonoBehaviour {
 	public string iconPrefix = "";
     public string[] ingredients = null;
     public float expectedHeight = 1f;
+    public Transform sign = null;
 
 	public bool testIngredientList = false;
 

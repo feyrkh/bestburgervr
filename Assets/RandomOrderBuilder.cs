@@ -1,39 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RandomOrderBuilder : MonoBehaviour {
-    public NpcOrder npcOrder;
+public class RandomOrderBuilder : OrderBuilder {
     public string[] ingredientsAllowed = new string[] { "meat", "ketchup", "lettuce" };
     public int orderComplexity = 2;
-     
-	// Use this for initialization
-	void Start () {
-	    if(npcOrder == null)
-        {
-            npcOrder = GetComponent<NpcOrder>();
-        }
-        StartCoroutine("RandomOrder");
-	}
 
-    public IEnumerator RandomOrder()
+    protected override string[] GenerateNewOrder()
     {
-        while(true)
+        string[] newOrder = new string[orderComplexity+2];
+        newOrder[0] = "bottom_bun";
+        newOrder[newOrder.Length - 1] = "top_bun";
+        for (int i=1;i<=orderComplexity;i++)
         {
-            yield return new WaitForSeconds(0.25f);
-            BuildRandomOrder();
+            newOrder[i] = ingredientsAllowed[Random.Range(0, ingredientsAllowed.Length)];
         }
-    }
-
-    public void BuildRandomOrder()
-    {
-        if(npcOrder.GetOrder() == null)
+        for(int i=0;i<newOrder.Length;i++)
         {
-            string[] newOrder = new string[orderComplexity];
-            for(int i=0;i<orderComplexity;i++)
-            {
-                newOrder[i] = ingredientsAllowed[Random.Range(0, ingredientsAllowed.Length)];
-            }
-            npcOrder.SetOrder(newOrder);
+            Debug.Log("Generated order: " + newOrder[i]);
         }
+        return newOrder;
     }
 }

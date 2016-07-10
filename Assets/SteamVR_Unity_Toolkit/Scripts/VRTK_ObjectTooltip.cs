@@ -40,7 +40,7 @@
         {
             this.transform.FindChild("TooltipCanvas").GetComponent<RectTransform>().sizeDelta = containerSize;
             var tmpContainer = this.transform.FindChild("TooltipCanvas/UIContainer");
-            tmpContainer.GetComponent<RectTransform>().sizeDelta = containerSize;
+           // tmpContainer.GetComponent<RectTransform>().sizeDelta = containerSize;
             tmpContainer.GetComponent<Image>().color = containerColor;
         }
 
@@ -56,19 +56,21 @@
         private void SetLine()
         {
             line = this.transform.FindChild("Line").GetComponent<LineRenderer>();
-            line.material = new Material(Shader.Find("Unlit/Color"));
-            line.material.color = lineColor;
-            line.SetColors(lineColor, lineColor);
-            line.SetWidth(lineWidth, lineWidth);
-            if (drawLineFrom == null)
-            {
-                drawLineFrom = this.transform;
+            if(line != null) { 
+                line.material = new Material(Shader.Find("Unlit/Color"));
+                line.material.color = lineColor;
+                line.SetColors(lineColor, lineColor);
+                line.SetWidth(lineWidth, lineWidth);
+                if (drawLineFrom == null)
+                {
+                    drawLineFrom = this.transform;
+                }
             }
         }
 
         private void DrawLine()
         {
-            if (drawLineTo)
+            if (false && drawLineTo)
             {
                 line.SetPosition(0, drawLineFrom.position);
                 line.SetPosition(1, drawLineTo.position);
