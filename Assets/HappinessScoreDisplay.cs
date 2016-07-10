@@ -5,8 +5,8 @@ using System;
 
 public class HappinessScoreDisplay : MonoBehaviour
 {
-    public float baseSecondsForBurger = 5f;
-    public float secondsPerIngredient = 1f;
+    public float baseSecondsForBurger = 6f;
+    public float secondsPerIngredient = 1.5f;
 
     public virtual IEnumerator ScoreOrder(string[] desiredIngredients, CompletedBurger completedBurger, float timeSinceOrderStarted)
     {
@@ -37,7 +37,7 @@ public class HappinessScoreDisplay : MonoBehaviour
         int missingErrors = 0;
         int extraErrors = 0;
         int outOfOrderErrors = 0;
-        float missingPenalty = 250 / desiredIngredients.Length;
+        float missingPenalty = 150 / desiredIngredients.Length;
         float extraPenalty = missingPenalty / 5;
         float outOfOrderPenalty = 15 / desiredIngredients.Length;
         if (desiredIngredients.Length == 0) return 100;
@@ -58,8 +58,8 @@ public class HappinessScoreDisplay : MonoBehaviour
         }
         foreach(int val in excessIngredients.Values)
         {
-            if (val > 0) extraErrors += val;
-            if (val < 0) missingErrors -= val;
+            if (val > 0) missingErrors += val;
+            if (val < 0) extraErrors -= val;
         }
         outOfOrderErrors = GetOutOfOrderElements(desiredIngredients, actualIngredients);
 
