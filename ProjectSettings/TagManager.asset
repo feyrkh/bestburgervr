@@ -7,6 +7,7 @@ TagManager:
   - Order Placard
   - No Replication
   - Food
+  - Coin
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - 
   - 
   - Untouchable
-  - 
-  - 
+  - Stickable
+  - Sticky
   - 
   - 
   - 

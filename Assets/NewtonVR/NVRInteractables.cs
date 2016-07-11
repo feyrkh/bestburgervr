@@ -26,7 +26,8 @@ namespace NewtonVR
 
             for (int index = 0; index < colliders.Length; index++)
             {
-                ColliderMapping[colliders[index]] = interactable;
+                if(!colliders[index].isTrigger) 
+                    ColliderMapping[colliders[index]] = interactable;
             }
         }
 

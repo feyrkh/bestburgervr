@@ -583,6 +583,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseSecondsForBurger: 5
   secondsPerIngredient: 1
+  coinSpawnPoint: {fileID: 0}
+  coinPrefab: {fileID: 466556, guid: d8614b274dc18cc408372612e5f5ebc4, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

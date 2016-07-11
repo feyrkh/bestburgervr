@@ -208,7 +208,7 @@ MonoBehaviour:
   AttachedHand: {fileID: 0}
   InteractionPoint: {fileID: 0}
   bulletPrefab: {fileID: 155810, guid: cdeb2e0d57e3fd64b81743d8c8534ec4, type: 2}
-  bulletForce: {x: 0, y: 20, z: 0}
+  bulletForce: {x: 0, y: 5, z: 0}
   firePoint: {fileID: 423108}
 --- !u!114 &11485570
 MonoBehaviour:

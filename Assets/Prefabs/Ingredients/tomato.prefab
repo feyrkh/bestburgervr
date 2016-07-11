@@ -14,7 +14,7 @@ GameObject:
   - 54: {fileID: 5462164}
   - 65: {fileID: 6559734}
   - 114: {fileID: 11483874}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: tomato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190082}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: fa04abfa4a80397428be027745d5f510, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

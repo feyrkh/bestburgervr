@@ -43,6 +43,13 @@ namespace NewtonVR
             Colliders = this.GetComponentsInChildren<Collider>();
         }
 
+        public virtual void RefreshColliders()
+        {
+            NVRInteractables.Deregister(this);
+            Colliders = this.GetComponentsInChildren<Collider>();
+            NVRInteractables.Register(this, Colliders);
+        }
+
         protected virtual void Start()
         {
             NVRInteractables.Register(this, Colliders);
@@ -56,6 +63,7 @@ namespace NewtonVR
 
                 for (int index = 0; index < Colliders.Length; index++)
                 {
+                    if(Colliders[index].isTrigger) continue;
                     //todo: this does not do what I think it does.
                     Vector3 closest = Colliders[index].ClosestPointOnBounds(AttachedHand.transform.position);
                     float distance = Vector3.Distance(AttachedHand.transform.position, closest);

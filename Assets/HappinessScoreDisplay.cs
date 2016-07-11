@@ -7,6 +7,19 @@ public class HappinessScoreDisplay : MonoBehaviour
 {
     public float baseSecondsForBurger = 6f;
     public float secondsPerIngredient = 1.5f;
+    public Transform coinSpawnPoint = null;
+    public Transform coinPrefab = null;
+    int tipTotal;
+
+    public void Awake()
+    {
+        GameObject tipJar = GameObject.Find("tip jar");
+        if(tipJar)
+        {
+            Transform coinSpawn = tipJar.transform.FindChild("coinSpawn");
+            if (coinSpawn) this.coinSpawnPoint = coinSpawn;
+        }
+    }
 
     public virtual IEnumerator ScoreOrder(string[] desiredIngredients, CompletedBurger completedBurger, float timeSinceOrderStarted)
     {
@@ -14,13 +27,31 @@ public class HappinessScoreDisplay : MonoBehaviour
         float speed = CalcSpeedScore(desiredIngredients, timeSinceOrderStarted);
         float accuracy = CalcAccuracyScore(desiredIngredients, completedBurger.ingredients);
         float neatness = CalcNeatnessScore(completedBurger);
+        tipTotal = 0;
         yield return new WaitForSeconds(0.5f);
         SetSpeedScore(speed);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         SetAccuracyScore(accuracy);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         SetNeatnessScore(neatness);
-        yield return new WaitForSeconds(2f);
+        yield return SpawnCoins();
+        yield return new WaitForSeconds(4f);
+    }
+    private static UnityEngine.Random rand = new UnityEngine.Random();
+    private IEnumerator SpawnCoins()
+    {
+        if(coinPrefab != null && coinSpawnPoint != null)
+        {
+            for(int i=0;i<tipTotal;i++)
+            {
+                Vector3 randPos = UnityEngine.Random.insideUnitSphere;
+                randPos.Scale(new Vector3(0.05f, 0.05f, 0.05f));
+                Vector3 randRot = UnityEngine.Random.insideUnitSphere;
+                randRot.Scale(new Vector3(90f, 90f, 90f));
+                Instantiate(coinPrefab, coinSpawnPoint.position + randPos, Quaternion.Euler(randRot));
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
     }
 
     private float CalcNeatnessScore(CompletedBurger completedBurger)
@@ -139,11 +170,21 @@ public class HappinessScoreDisplay : MonoBehaviour
 
     private void ApplyScoreTexture(float score, MeshRenderer label) {
         string texture = "neutral";
-        if (score >= 90) texture = "very_happy";
-        else if (score >= 70) texture = "happy";
-        else if (score >= 50) texture = "neutral";
-        else if (score >= 25) texture = "unhappy";
-        else texture = "very_unhappy";
+        if (score >= 90) {
+            tipTotal += 2;
+            texture = "very_happy";
+        } else if (score >= 70) {
+            tipTotal += 1;
+            texture = "happy";
+        } else if (score >= 50) texture = "neutral";
+        else if (score >= 25) {
+            tipTotal -= 1;
+            texture = "unhappy"; }
+        else
+        {
+            tipTotal -= 3;
+            texture = "very_unhappy";
+        }
         Texture textureResource = Resources.Load<Texture>(texture);
         label.material.mainTexture = textureResource;
     }

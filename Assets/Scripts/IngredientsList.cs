@@ -38,15 +38,19 @@ public class IngredientsList : MonoBehaviour {
 		int i = 0;
 		int scale = ingredients.Length + 2;
 		foreach (string ingredient in ingredients) {
-			if (i == 0 && ingredient == "bottom_bun") {
+            /*
+            if (i == 0 && ingredient == "bottom_bun") {
 				scale--;
 				continue;
 			}
+            */
 			i++;
+            /*
 			if (i == ingredients.Length - 1 && ingredient == "top_bun") {
 				scale--;
 				continue;
 			}
+            */
 			BuildIngredientLabel (ingredient, labelPosition, out ingredientLabel);		
 			ingredientLabel.transform.localPosition = labelPosition + new Vector3(0,0,-0.01f);
 			BuildIngredientLabel (ingredient,  labelPosition, out ingredientLabel);		
