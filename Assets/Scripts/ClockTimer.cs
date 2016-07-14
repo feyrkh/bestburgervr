@@ -6,6 +6,7 @@ public class ClockTimer : MonoBehaviour {
 	public float secondsToRun = 30;
 	private float secondsElapsed = 0;
 	public Transform hand;
+    public bool restart = true;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,7 @@ public class ClockTimer : MonoBehaviour {
 				secondsElapsed = secondsToRun;
 			if (secondsElapsed >= secondsToRun) {
 				SendMessage ("OnClockTimerElapsed", this);
+                if (restart) ResetClock();
 			}
 			hand.localRotation = Quaternion.Euler(new Vector3 (0, 0, 360 * (secondsElapsed / secondsToRun)));
 		}
