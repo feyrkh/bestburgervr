@@ -21,8 +21,8 @@ public class NpcSpawner : MonoBehaviour {
     {
         currentNpc = (OrderBuilder)Instantiate(npcPrefab, transform.position + new Vector3(-3, 0, 0), Quaternion.identity);
         // Add an NpcRespawner to the new NPC so it gets recreated after being destroyed
-        currentNpc.gameObject.AddComponent<NpcRespawner>();
-        currentNpc.GetComponent<NpcRespawner>().spawner = this;
+        currentNpc.gameObject.AddComponent<InfiniteNpcRespawner>();
+        currentNpc.GetComponent<InfiniteNpcRespawner>().spawner = this;
         StartCoroutine("MoveNpcInAndOrder");
     }
 
@@ -33,7 +33,8 @@ public class NpcSpawner : MonoBehaviour {
     }
 }
 
-public class NpcRespawner : MonoBehaviour
+
+public class InfiniteNpcRespawner : MonoBehaviour
 {
     internal NpcSpawner spawner;
 
