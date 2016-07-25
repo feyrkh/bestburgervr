@@ -55,7 +55,9 @@
 
         private void SetLine()
         {
-            line = this.transform.FindChild("Line").GetComponent<LineRenderer>();
+            var lineObj = this.transform.FindChild("Line");
+            if (lineObj == null) return;
+            line = lineObj.GetComponent<LineRenderer>();
             if(line != null) { 
                 line.material = new Material(Shader.Find("Unlit/Color"));
                 line.material.color = lineColor;

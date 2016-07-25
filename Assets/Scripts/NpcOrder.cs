@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class NpcOrder : MonoBehaviour {
     public Transform orderPosition;
@@ -13,6 +14,16 @@ public class NpcOrder : MonoBehaviour {
     CompletedBurger completedBurger;
     public HappinessScoreDisplay scorePrefab;
     public Transform scorePosition;
+
+    public string[] GetDesiredIngredients()
+    {
+        return desiredIngredients;
+    }
+
+    public float GetTimeSinceOrderStarted()
+    {
+        return timeSinceOrderStarted;
+    }
 
     public void Update()
     {
@@ -49,35 +60,44 @@ public class NpcOrder : MonoBehaviour {
             acceptingOrders = false;
             Debug.Log("Received a food item, taking it", this);
             completedBurger = other.transform.parent.gameObject.GetComponent<CompletedBurger>();
-            Debug.Log("Completed burger", completedBurger);
-            actualIngredients = completedBurger.ingredients;
-            var tray = other.transform.parent.gameObject;
-            tray.transform.SetParent(this.transform);
-            foreach (var i in tray.GetComponentsInChildren<NewtonVR.NVRInteractableItem>())
-            {
-                Destroy(i);
-            }
+            ReceiveCompletedBurger(completedBurger);
 
-            foreach (var i in tray.GetComponentsInChildren<Rigidbody>())
-            {
-                i.isKinematic = true;
-            }
-
-            tray.GetComponent<Rigidbody>().isKinematic = true;
-            var trayInteractable = tray.GetComponent<NewtonVR.NVRInteractableItem>();
-            if (trayInteractable != null)
-            {
-                Destroy(trayInteractable);
-            }
-            tray.GetComponent<Rigidbody>().isKinematic = true;
-            Destroy(orderLabel.gameObject);
-            orderLabel = null;
-            StartCoroutine("FinishOrder", tray);
         }
+    }
+
+    public void ReceiveCompletedBurger(CompletedBurger completedBurger)
+    {
+        Debug.Log("Completed burger", completedBurger);
+        this.completedBurger = completedBurger;
+        actualIngredients = completedBurger.ingredients;
+        var tray = completedBurger.gameObject;
+        completedBurger.container = tray;
+        tray.transform.SetParent(this.transform);
+        foreach (var i in tray.GetComponentsInChildren<NewtonVR.NVRInteractableItem>())
+        {
+            Destroy(i);
+        }
+
+        foreach (var i in tray.GetComponentsInChildren<Rigidbody>())
+        {
+            i.isKinematic = true;
+        }
+
+        tray.GetComponent<Rigidbody>().isKinematic = true;
+        var trayInteractable = tray.GetComponent<NewtonVR.NVRInteractableItem>();
+        if (trayInteractable != null)
+        {
+            Destroy(trayInteractable);
+        }
+        tray.GetComponent<Rigidbody>().isKinematic = true;
+        if(orderLabel != null) Destroy(orderLabel.gameObject);
+        orderLabel = null;
+        StartCoroutine("FinishOrder", tray);
     }
 
     IEnumerator FinishOrder(GameObject tray)
     {
+        /*
         yield return MoveUtil.MoveOverSeconds(tray, trayPosition.localPosition, 1f);
         HappinessScoreDisplay scorer = Instantiate<HappinessScoreDisplay>(scorePrefab);
         scorer.transform.SetParent(transform);
@@ -89,5 +109,7 @@ public class NpcOrder : MonoBehaviour {
         }
         Destroy(scorer);
         SendMessage("OnTimeToLeave");
+        */
+        yield return LevelManager.Instance.waveRules.NpcServed(this, completedBurger);
     }
 }

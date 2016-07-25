@@ -480,6 +480,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectedSwitch: {fileID: 11476190}
+  secondsToChange: 1.96
+  targetSize: 1.4
 --- !u!114 &11476190
 MonoBehaviour:
   m_ObjectHideFlags: 1

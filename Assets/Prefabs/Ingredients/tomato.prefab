@@ -10,11 +10,11 @@ GameObject:
   - 4: {fileID: 493092}
   - 33: {fileID: 3310434}
   - 23: {fileID: 2316354}
-  - 114: {fileID: 11458702}
   - 54: {fileID: 5462164}
   - 65: {fileID: 6559734}
   - 114: {fileID: 11483874}
-  m_Layer: 9
+  - 114: {fileID: 11458702}
+  m_Layer: 0
   m_Name: tomato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,10 +27,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190082}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.477163, y: 1.154, z: 12.470402}
-  m_LocalScale: {x: 0.1692414, y: 0.01, z: 0.16924128}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+  m_LocalPosition: {x: -0.091, y: 1.183, z: -0.246}
+  m_LocalScale: {x: 0.080716036, y: 0.08071606, z: 0.08071606}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -44,14 +44,14 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: cb040285b07a3f44c958bbc93ad4080d, type: 2}
+  - {fileID: 2100000, guid: 76b2ab628ea63ae4b84678a2f07fa4d1, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
   m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
+  m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
@@ -66,7 +66,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190082}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 75ba3fb5e8b45954f8bcc8224c7caf0e, type: 3}
 --- !u!54 &5462164
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -88,12 +88,12 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190082}
-  m_Material: {fileID: 13400000, guid: fa04abfa4a80397428be027745d5f510, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Size: {x: 2, y: 1.9999998, z: 0.18460105}
+  m_Center: {x: 0, y: 0, z: -0.3450077}
 --- !u!114 &11458702
 MonoBehaviour:
   m_ObjectHideFlags: 1

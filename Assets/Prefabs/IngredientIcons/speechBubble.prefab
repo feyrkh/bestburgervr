@@ -58,6 +58,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 404782}
   - 114: {fileID: 11411350}
+  - 114: {fileID: 11404074}
   m_Layer: 0
   m_Name: speechBubble
   m_TagString: Untagged
@@ -186,6 +187,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 127396}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &11404074
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f0ad4e006895041855e56ffb8dc522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!114 &11411350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,6 +216,7 @@ MonoBehaviour:
   iconPrefix: order/
   ingredients: []
   expectedHeight: 0.05
+  sign: {fileID: 0}
   testIngredientList: 0
 --- !u!1001 &100100000
 Prefab:

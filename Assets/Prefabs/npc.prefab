@@ -40,10 +40,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 455322}
   - 114: {fileID: 11471926}
-  - 114: {fileID: 11463022}
   - 65: {fileID: 6544042}
   - 54: {fileID: 5401494}
-  - 114: {fileID: 11462238}
   m_Layer: 0
   m_Name: npc
   m_TagString: Order Placard
@@ -148,38 +146,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.45613238, y: 0.5662327, z: 0.19230402}
   m_Center: {x: 0.019878136, y: 0.19455087, z: -0.05913788}
---- !u!114 &11462238
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffbe4c99452f3aa45929107d3af8a93b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11463022
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654db78820289f64f9e6c0656f4ead44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcOrder: {fileID: 0}
-  ingredientsAllowed:
-  - meat
-  - ketchup
-  - lettuce
-  - tomato
-  - meat
-  - mustard
-  - bottom_bun
-  orderComplexity: 3
 --- !u!114 &11471926
 MonoBehaviour:
   m_ObjectHideFlags: 1

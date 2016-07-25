@@ -12,11 +12,31 @@ public class VRTK_RoomExtender : MonoBehaviour
     public MovementFunction movementFunction = MovementFunction.LinearDirect;
     public bool additionalMovementEnabled = true;
     public bool additionalMovementEnabledOnButtonPress = true;
+    private bool _freezeRotation = false;
+    public bool freezeRotation
+    {
+        get
+        {
+            return _freezeRotation;
+        }
+        set
+        {
+            _freezeRotation = value;
+            if(value)
+            {
+                playArea.drawInGame = true;
+            } else
+            {
+                playArea.drawInGame = false;
+            }
+        }
+    }
     [Range(0, 10)]
     public float additionalMovementMultiplier = 1.0f;
     [Range(0, 5)]
     public float headZoneRadius = 0.25f;
     public Transform debugTransform;
+    public SteamVR_PlayArea playArea;
 
     [HideInInspector]
     public Vector3 relativeMovementOfCameraRig = new Vector3();
@@ -26,9 +46,11 @@ public class VRTK_RoomExtender : MonoBehaviour
     protected Vector3 headCirclePosition;
     protected Vector3 lastPosition;
     protected Vector3 lastMovement;
+    protected float lastRotation;
 
     private void Start()
     {
+        playArea = GetComponent<SteamVR_PlayArea>();
         if (movementTransform == null)
         {
             if (VRTK.DeviceFinder.HeadsetTransform() != null)
@@ -50,6 +72,7 @@ public class VRTK_RoomExtender : MonoBehaviour
         }
         MoveHeadCircleNonLinearDrift();
         lastPosition = movementTransform.localPosition;
+        lastRotation = movementTransform.localRotation.eulerAngles.y;
     }
 
     private void Update()
@@ -65,6 +88,8 @@ public class VRTK_RoomExtender : MonoBehaviour
             default:
                 break;
         }
+        lastPosition = movementTransform.localPosition;
+        lastRotation = movementTransform.localRotation.eulerAngles.y;
     }
 
     private void Move(Vector3 movement)
@@ -85,6 +110,15 @@ public class VRTK_RoomExtender : MonoBehaviour
     {
         //Get the movement of the head relative to the headCircle.
         var circleCenterToHead = new Vector3(movementTransform.localPosition.x - headCirclePosition.x, 0, movementTransform.localPosition.z - headCirclePosition.z);
+
+        if (freezeRotation)
+        {
+            float movementRotationDiff = movementTransform.localRotation.eulerAngles.y - lastRotation;
+            Vector3 rotation = transform.localRotation.eulerAngles;
+            rotation.y -= movementRotationDiff;
+            transform.RotateAround(movementTransform.position, Vector3.up, -movementRotationDiff);
+//            transform.localRotation = Quaternion.Euler(rotation);
+        }
 
         //Get the direction of the head movement.
         UpdateLastMovement();
@@ -112,6 +146,5 @@ public class VRTK_RoomExtender : MonoBehaviour
         //Save the last movement
         lastMovement = movementTransform.localPosition - lastPosition;
         lastMovement.y = 0;
-        lastPosition = movementTransform.localPosition;
     }
 }

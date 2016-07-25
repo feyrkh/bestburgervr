@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 460790}
   - 33: {fileID: 3347716}
   - 23: {fileID: 2316742}
-  - 114: {fileID: 11485570}
   - 54: {fileID: 5492812}
   - 65: {fileID: 6595396}
   - 114: {fileID: 11475284}
@@ -86,8 +85,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105618}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.8261571, y: 1.1329999, z: -0.3883861}
+  m_LocalRotation: {x: -0.0000034937839, y: -0.00000032132903, z: -0.000003845358,
+    w: 1}
+  m_LocalPosition: {x: -0.709, y: 1.1329998, z: -0.5784972}
   m_LocalScale: {x: 0.09, y: 0.1, z: 0.09}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -105,7 +105,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc2b212258afba47bb318c53afeca0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rigidbody: {fileID: 0}
+  Rigidbody: {fileID: 5492812}
   CanAttach: 1
   DisableKinematicOnAttach: 1
   EnableKinematicOnDetach: 0
@@ -207,21 +207,9 @@ MonoBehaviour:
   EnableGravityOnDetach: 1
   AttachedHand: {fileID: 0}
   InteractionPoint: {fileID: 0}
-  bulletPrefab: {fileID: 155810, guid: cdeb2e0d57e3fd64b81743d8c8534ec4, type: 2}
-  bulletForce: {x: 0, y: 5, z: 0}
+  bulletPrefab: {fileID: 148076, guid: 6fe2200769158f245b5d4646bfeade7b, type: 2}
+  bulletForce: {x: 0, y: 1, z: 0}
   firePoint: {fileID: 423108}
---- !u!114 &11485570
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 105618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e983f85126df24849af5e44d081be744, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 1, g: 0.9724138, b: 0, a: 0}
 --- !u!136 &13657726
 CapsuleCollider:
   m_ObjectHideFlags: 1

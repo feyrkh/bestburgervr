@@ -65,6 +65,7 @@ GameObject:
   - 4: {fileID: 413492}
   - 54: {fileID: 5452232}
   - 59: {fileID: 5941540}
+  - 114: {fileID: 11414854}
   m_Layer: 0
   m_Name: lever
   m_TagString: Untagged
@@ -91,11 +92,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 148210}
-  m_LocalRotation: {x: 2.6622028e-16, y: -0.000000006777498, z: 0.0000000015728916,
-    w: 1}
-  m_LocalPosition: {x: -16.9728, y: 1.4044, z: 10.616}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071067}
+  m_LocalPosition: {x: -0.11860642, y: -0.362, z: 0.82029414}
+  m_LocalScale: {x: 3.3138587, y: 3.3138587, z: 3.313859}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
   m_Children:
   - {fileID: 404972}
   - {fileID: 421918}
@@ -252,7 +252,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -16.9728, y: 1.4044, z: 10.616}
+  m_ConnectedAnchor: {x: -0.48560643, y: 1.143, z: -2.633}
   m_UseSpring: 0
   m_Spring:
     spring: 15
@@ -286,6 +286,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11414854
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae646601de4b2f74f85041222d2e032a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lever: {fileID: 11420088}
+  rulesetName: Fast Food
+  npcEnterStylePrefab: {fileID: 11421736, guid: e2353efe831b61440a93b06864e17816,
+    type: 2}
+  npcExitStylePrefab: {fileID: 11483224, guid: e2353efe831b61440a93b06864e17816, type: 2}
+  waveRulesPrefab: {fileID: 11404574, guid: e2353efe831b61440a93b06864e17816, type: 2}
+  orderRulesPrefab: {fileID: 11463580, guid: e2353efe831b61440a93b06864e17816, type: 2}
+  levelSettingsPrefab: {fileID: 11461172, guid: e2353efe831b61440a93b06864e17816,
+    type: 2}
 --- !u!114 &11420088
 MonoBehaviour:
   m_ObjectHideFlags: 1

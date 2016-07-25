@@ -7,6 +7,8 @@ namespace NewtonVR
     {
         public Rigidbody Rigidbody;
 
+        public string buttonName = "unknown";
+
         [Tooltip("The (worldspace) distance from the initial position you have to push the button for it to register as pushed")]
         public float DistanceToEngage = 0.075f;
 
@@ -73,12 +75,18 @@ namespace NewtonVR
             ButtonIsPushed = CurrentDistance > DistanceToEngage;
 
             if (ButtonWasPushed == false && ButtonIsPushed == true)
+            {
                 ButtonDown = true;
+                SendMessageUpwards("OnButtonPushed", buttonName);
+            }
             else
                 ButtonDown = false;
 
             if (ButtonWasPushed == true && ButtonIsPushed == false)
+            {
                 ButtonUp = true;
+                //SendMessageUpwards("OnButtonReleased", buttonName);
+            }
             else
                 ButtonUp = false;
         }

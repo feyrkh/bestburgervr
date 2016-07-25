@@ -5,6 +5,7 @@ using VRTK;
 public class VRTK_RoomExtender_ControllerExample : MonoBehaviour
 {
     protected VRTK_RoomExtender roomExtender;
+    public bool freezeRotationOnPadPress = false;
 
     // Use this for initialization
     private void Start()
@@ -68,11 +69,19 @@ public class VRTK_RoomExtender_ControllerExample : MonoBehaviour
 
     private void EnableAdditionalMovement()
     {
-        roomExtender.additionalMovementEnabled = true;
+        if (freezeRotationOnPadPress)
+        {
+            roomExtender.freezeRotation = true;
+        }
+        else
+        {
+            roomExtender.additionalMovementEnabled = true;
+        }
     }
 
     private void DisableAdditionalMovement()
     {
         roomExtender.additionalMovementEnabled = false;
+        roomExtender.freezeRotation = false;
     }
 }
