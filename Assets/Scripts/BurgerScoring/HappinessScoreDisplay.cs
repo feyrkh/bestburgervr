@@ -7,18 +7,12 @@ public class HappinessScoreDisplay : MonoBehaviour
 {
     public float baseSecondsForBurger = 6f;
     public float secondsPerIngredient = 1.5f;
-    public Transform coinSpawnPoint = null;
-    public Transform coinPrefab = null;
     int tipTotal;
+    TipJar tipJar;
 
     public void Awake()
     {
-        GameObject tipJar = GameObject.Find("tip jar");
-        if(tipJar)
-        {
-            Transform coinSpawn = tipJar.transform.FindChild("coinSpawn");
-            if (coinSpawn) this.coinSpawnPoint = coinSpawn;
-        }
+        tipJar = GameObject.FindObjectOfType<TipJar>();
     }
 
     public virtual IEnumerator ScoreOrder(string[] desiredIngredients, CompletedBurger completedBurger, float timeSinceOrderStarted)
@@ -34,25 +28,11 @@ public class HappinessScoreDisplay : MonoBehaviour
         SetAccuracyScore(accuracy);
         yield return new WaitForSeconds(0.5f);
         SetNeatnessScore(neatness);
-        yield return SpawnCoins();
+        if(tipJar != null)
+            yield return tipJar.SpawnCoinsCoroutine(tipTotal);
         yield return new WaitForSeconds(4f);
     }
     private static UnityEngine.Random rand = new UnityEngine.Random();
-    private IEnumerator SpawnCoins()
-    {
-        if(coinPrefab != null && coinSpawnPoint != null)
-        {
-            for(int i=0;i<tipTotal;i++)
-            {
-                Vector3 randPos = UnityEngine.Random.insideUnitSphere;
-                randPos.Scale(new Vector3(0.05f, 0.05f, 0.05f));
-                Vector3 randRot = UnityEngine.Random.insideUnitSphere;
-                randRot.Scale(new Vector3(90f, 90f, 90f));
-                Instantiate(coinPrefab, coinSpawnPoint.position + randPos, Quaternion.Euler(randRot));
-                yield return new WaitForSeconds(0.2f);
-            }
-        }
-    }
 
     private float CalcNeatnessScore(CompletedBurger completedBurger)
     {

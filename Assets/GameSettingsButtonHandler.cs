@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameSettingsButtonHandler : MonoBehaviour {
+public class GameSettingsButtonHandler : LeverListener {
     public WaveRules fastFoodLevelPrefab;
     public WaveRules earlyBirdLevelPrefab;
     public WaveRules lunchRushLevelPrefab;
@@ -15,6 +15,7 @@ public class GameSettingsButtonHandler : MonoBehaviour {
     {
         if(LevelManager.Instance.settings == null)
         {
+            Debug.Log("Creating new settings for LevelManager");
             LevelManager.Instance.settings = new LevelSettings();
         }
         gameModeLabel = GameObject.Find("gameModeLabel").GetComponent<VRTK.VRTK_ObjectTooltip>();
@@ -48,5 +49,38 @@ public class GameSettingsButtonHandler : MonoBehaviour {
         gameModeLabel.Reset();
         customerCountLabel.Reset();
         difficultyLevelLabel.Reset();
+    }
+
+    public override void OnLeverEngaged(NewtonVR.NVRLever lever)
+    {
+        Debug.Log("Starting level!", this);
+        WaveRules prefab = null;
+        switch (LevelManager.Instance.settings.gameMode)
+        {
+            case LevelSettings.MODE_FAST_FOOD:
+                prefab = Instantiate(fastFoodLevelPrefab);
+                break;
+            case LevelSettings.MODE_EARLY_BIRD:
+                prefab = Instantiate(earlyBirdLevelPrefab);
+                break;
+            case LevelSettings.MODE_LUNCH_RUSH:
+                prefab = Instantiate(lunchRushLevelPrefab);
+                break;
+            case LevelSettings.MODE_FRANCHISE:
+                prefab = Instantiate(campaignLevelPrefab);
+                break;
+        }
+        if(prefab == null)
+        {
+            Debug.LogError("Bad game mode name, no prefab: " + LevelManager.Instance.settings.gameMode);
+        }
+        DontDestroyOnLoad(prefab);
+        if(LevelManager.Instance.levelPrefab != null)
+        {
+            Destroy(LevelManager.Instance.levelPrefab);
+        }
+        LevelManager.Instance.levelPrefab = prefab.gameObject;
+        Debug.Log("LevelManager has settings: " + LevelManager.Instance.settings);
+        SteamVR_LoadLevel.Begin("Main");
     }
 }

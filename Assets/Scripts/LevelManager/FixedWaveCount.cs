@@ -2,17 +2,26 @@
 using System.Collections;
 using System;
 
-public class InfiniteWaves : WaveRules
+public class FixedWaveCount: WaveRules
 {
     public NpcOrder npcPrefab;
+    public int waveCount = 99999;
     NpcOrder currentNpc;
 
     public override IEnumerator SpawnWave()
     {
-        currentNpc = (NpcOrder)Instantiate(npcPrefab, LevelManager.Instance.startPosition.position, LevelManager.Instance.startPosition.rotation);
-        yield return LevelManager.Instance.npcEnterStyle.NpcEnter(currentNpc.transform);
-        LevelManager.Instance.orderRules.GenerateOrder(currentNpc);
-    }
+        waveCount--;
+        if (waveCount < 0)
+        {
+            EndLevel();
+        }
+        else
+        {
+            currentNpc = (NpcOrder)Instantiate(npcPrefab, LevelManager.Instance.startPosition.position, LevelManager.Instance.startPosition.rotation);
+            yield return LevelManager.Instance.npcEnterStyle.NpcEnter(currentNpc.transform);
+            LevelManager.Instance.orderRules.GenerateOrder(currentNpc);
+        }
+   }
 
     public override IEnumerator NpcServed(NpcOrder npc, CompletedBurger burger)
     {
@@ -41,11 +50,14 @@ public class InfiniteWaves : WaveRules
 
     protected override void OnStartLevel()
     {
-        Debug.Log("Starting an infinite # of waves");
+        Debug.Log("LevelManager has settings: " + LevelManager.Instance.settings);
+        waveCount = LevelManager.Instance.settings.customerCount;
+        Debug.Log("Starting "+waveCount+" waves");
         StartCoroutine("SpawnWave");
     }
 
     protected override void OnEndLevel()
     {
+        SteamVR_LoadLevel.Begin("Menu", false, 2);
     }
 }

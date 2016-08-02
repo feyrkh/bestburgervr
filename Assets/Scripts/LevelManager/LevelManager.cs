@@ -12,12 +12,59 @@ public class LevelManager : Singleton<LevelManager>
     public NpcExitStyle npcExitStyle;
     public Transform startPosition;
     public Transform orderPosition;
+    public int coinCount = 3;
+    public TipJar tipJar;
+    public GameObject levelPrefab;
+
+    public void Awake()
+    {
+        gameObject.SendMessage("OnLevelWasLoaded");
+    }
+
+    public void OnLevelWasLoaded()
+    {
+        Debug.Log("Loaded level, spawning "+coinCount+" coins now", this);
+        tipJar = FindObjectOfType<TipJar>();
+        tipJar.SpawnCoins(coinCount);
+        if (levelPrefab) {
+            Debug.Log("Starting level with prefab", levelPrefab);
+            StartLevel(levelPrefab);
+            levelPrefab = null;
+        }
+    }
+
+    public void CountCoins()
+    {
+        coinCount = FindObjectsOfType<Coin>().Length;
+        Debug.Log("Found coin count: " + coinCount);
+    }
 
     public void StartLevel()
     {
+        if(waveRules != null && waveRules.IsRunning())
+        {
+            Debug.LogError("Level is already running, ignoring");
+            return;
+        }
         startPosition = GameObject.Find("npcStartPosition").transform;
         orderPosition = GameObject.Find("npcOrderPosition").transform;
         StartCoroutine("RunLevel");
+    }
+
+    public void StartLevel(GameObject levelPrefab)
+    {
+        Debug.Log("Starting level");
+        CountCoins();
+        if (waveRules != null && waveRules.IsRunning())
+        {
+            Debug.LogError("Level is already running, ignoring");
+            return;
+        }
+        waveRules = levelPrefab.GetComponent<WaveRules>();
+        orderRules = levelPrefab.GetComponent<OrderRules>();
+        npcEnterStyle = levelPrefab.GetComponent<NpcEnterStyle>();
+        npcExitStyle = levelPrefab.GetComponent<NpcExitStyle>();
+        StartLevel();
     }
 
     public IEnumerator RunLevel()
@@ -30,6 +77,7 @@ public class LevelManager : Singleton<LevelManager>
             yield return pause;
         }
         Debug.Log("All waves ended, level is over!");
+        CountCoins();
     }
 
     public bool IsRunning()
@@ -104,7 +152,7 @@ public abstract class OrderRules : MonoBehaviour
     public abstract void GenerateOrder(NpcOrder npc);
 }
 
-public class LevelSettings : MonoBehaviour
+public class LevelSettings
 {
     public int gameModeIndex
     {
@@ -156,11 +204,15 @@ public class LevelSettings : MonoBehaviour
         }
     }
 
+    public const string MODE_FAST_FOOD = "Fast Food";
+    public const string MODE_EARLY_BIRD = "Early Bird Special";
+    public const string MODE_LUNCH_RUSH = "Lunch Rush";
+    public const string MODE_FRANCHISE = "Franchise";
     private int _gameModeIndex = 0;
     private int _customerCountIndex = 2;
     private int _difficultyLevelIndex = 0;  
       
-    public string[] gameModeOptions = { "Fast Food", "Early Bird Special", "Lunch Rush", "Franchise" };
+    public string[] gameModeOptions = { MODE_FAST_FOOD, MODE_EARLY_BIRD, MODE_LUNCH_RUSH, MODE_FRANCHISE };
     public int[] customerCountOptions = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9999 };
     public int[] difficultyLevelOptions = { 1, 2, 3, 4, 5 };
 }

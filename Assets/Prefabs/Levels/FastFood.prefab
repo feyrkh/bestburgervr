@@ -10,9 +10,8 @@ GameObject:
   - 4: {fileID: 418550}
   - 114: {fileID: 11421736}
   - 114: {fileID: 11483224}
-  - 114: {fileID: 11404574}
   - 114: {fileID: 11463580}
-  - 114: {fileID: 11461172}
+  - 114: {fileID: 11425086}
   m_Layer: 0
   m_Name: FastFood
   m_TagString: Untagged
@@ -33,7 +32,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11404574
+--- !u!114 &11421736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 172188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65b05325c5378e7429702dd3826b5545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11425086
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -46,28 +56,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   running: 0
   npcPrefab: {fileID: 11471926, guid: 86a0a99af3921bd498d57e4c29b90ac4, type: 2}
---- !u!114 &11421736
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 172188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65b05325c5378e7429702dd3826b5545, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11461172
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 172188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f3be1424254f984595b06d49bb13686, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  waveCount: 99999
 --- !u!114 &11463580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -87,7 +76,7 @@ MonoBehaviour:
   - meat
   - mustard
   - bottom_bun
-  orderComplexity: 17
+  orderComplexity: 3
 --- !u!114 &11483224
 MonoBehaviour:
   m_ObjectHideFlags: 1
