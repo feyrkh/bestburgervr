@@ -15,6 +15,7 @@ public class LevelManager : Singleton<LevelManager>
     public int coinCount = 3;
     public TipJar tipJar;
     public GameObject levelPrefab;
+    public string menuLevel = null;
 
     public void Awake()
     {

@@ -54,6 +54,7 @@ public class GameSettingsButtonHandler : LeverListener {
     public override void OnLeverEngaged(NewtonVR.NVRLever lever)
     {
         Debug.Log("Starting level!", this);
+        LevelManager.Instance.menuLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         WaveRules prefab = null;
         switch (LevelManager.Instance.settings.gameMode)
         {
