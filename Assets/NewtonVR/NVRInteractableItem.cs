@@ -65,7 +65,7 @@ namespace NewtonVR
         public override void BeginInteraction(NVRHand hand)
         {
             base.BeginInteraction(hand);
-
+            SendMessage("OnBeginInteraction", hand, SendMessageOptions.DontRequireReceiver);
             PickupTransform = new GameObject(string.Format("[{0}] NVRPickupTransform", this.gameObject.name)).transform;
             PickupTransform.parent = hand.transform;
             PickupTransform.position = this.transform.position;
