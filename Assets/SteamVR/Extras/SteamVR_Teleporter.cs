@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿//======= Copyright (c) Valve Corporation, All rights reserved. ===============
+using UnityEngine;
 using System.Collections;
 
 public class SteamVR_Teleporter : MonoBehaviour
@@ -68,7 +69,6 @@ public class SteamVR_Teleporter : MonoBehaviour
                 RaycastHit hitInfo;
                 Physics.Raycast(ray, out hitInfo);
                 dist = hitInfo.distance;
-                hasGroundTarget = true;
             }
             else
             {
@@ -78,8 +78,7 @@ public class SteamVR_Teleporter : MonoBehaviour
             if (hasGroundTarget)
             {
 				Vector3 headPosOnGround = new Vector3(SteamVR_Render.Top().head.localPosition.x, 0.0f, SteamVR_Render.Top().head.localPosition.z);
-                t.position = ray.origin + ray.direction * dist - headPosOnGround;
-                //t.position = ray.origin + ray.direction * dist - new Vector3(t.GetChild(0).localPosition.x, 0f, t.GetChild(0).localPosition.z) - headPosOnGround;
+				t.position = ray.origin + ray.direction * dist - new Vector3(t.GetChild(0).localPosition.x, 0f, t.GetChild(0).localPosition.z) - headPosOnGround;
             }
         }
     }

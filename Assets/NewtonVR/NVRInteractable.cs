@@ -55,7 +55,9 @@ namespace NewtonVR
             NVRInteractables.Register(this, Colliders);
         }
 
-        protected virtual void FixedUpdate()
+        private float lastPoses;
+        protected float deltaPoses;
+        public virtual void OnNewPosesApplied()
         {
             if (IsAttached == true)
             {
@@ -63,7 +65,6 @@ namespace NewtonVR
 
                 for (int index = 0; index < Colliders.Length; index++)
                 {
-                    if(Colliders[index].isTrigger) continue;
                     //todo: this does not do what I think it does.
                     Vector3 closest = Colliders[index].ClosestPointOnBounds(AttachedHand.transform.position);
                     float distance = Vector3.Distance(AttachedHand.transform.position, closest);
@@ -80,6 +81,13 @@ namespace NewtonVR
                     DroppedBecauseOfDistance();
                 }
             }
+
+            deltaPoses = Time.time - lastPoses;
+
+            if (deltaPoses == 0)
+                deltaPoses = Time.fixedDeltaTime;
+
+            lastPoses = Time.time;
         }
 
         //Remove items that go too high or too low.
@@ -102,6 +110,8 @@ namespace NewtonVR
             {
                 Rigidbody.isKinematic = false;
             }
+
+            lastPoses = Time.time;
         }
 
         public virtual void InteractingUpdate(NVRHand hand)

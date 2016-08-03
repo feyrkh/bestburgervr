@@ -22,12 +22,11 @@ namespace NewtonVR
 
         public static void Register(NVRInteractable interactable, Collider[] colliders)
         {
-            NVRInteractableMapping[interactable] = colliders;
+            NVRInteractableMapping.Add(interactable, colliders);
 
             for (int index = 0; index < colliders.Length; index++)
             {
-                if(!colliders[index].isTrigger) 
-                    ColliderMapping[colliders[index]] = interactable;
+                ColliderMapping.Add(colliders[index], interactable);
             }
         }
 
