@@ -45,4 +45,22 @@ public class SaveHat : MonoBehaviour {
         }
         shelf.RemoveFlair(this, flair);
     }
+
+
+    public void OnEndInteraction()
+    {
+        Debug.Log("Dropping a hat, checking to see if there's a nearby HatHanger");
+        var overlappingItems = Physics.OverlapSphere(transform.position, 0.05f, -1, QueryTriggerInteraction.Collide);
+        for(int i=0;i<overlappingItems.Length;i++)
+        {
+            var item = overlappingItems[i];
+            if(item.gameObject.tag == "HatHanger")
+            {
+                Debug.Log("Attaching hat to a hat hanger", item.gameObject);
+                transform.SetParent(item.transform);
+                return;
+            }
+            transform.SetParent(null);
+        }
+    }
 }

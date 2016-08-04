@@ -12,14 +12,30 @@ public class LevelManager : Singleton<LevelManager>
     public NpcExitStyle npcExitStyle;
     public Transform startPosition;
     public Transform orderPosition;
-    public int coinCount = 3;
+    public int coinCount = 0;
     public TipJar tipJar;
     public GameObject levelPrefab;
     public string menuLevel = null;
+    public int currentlyWornHat = 0;
 
     public void Awake()
     {
         gameObject.SendMessage("OnLevelWasLoaded");
+    }
+
+    public bool WearHat(SaveHat hat)
+    {
+        if(currentlyWornHat <= 0)
+        {
+            currentlyWornHat = hat.saveFileId;
+            return true;
+        }
+        return false;
+    }
+
+    public void RemoveHat(SaveHat hat)
+    {
+        if(hat.saveFileId == currentlyWornHat) currentlyWornHat = 0;
     }
 
     public void OnLevelWasLoaded()

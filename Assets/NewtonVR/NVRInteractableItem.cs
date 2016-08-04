@@ -75,6 +75,8 @@ namespace NewtonVR
 
             if (PickupTransform != null)
                 Destroy(PickupTransform.gameObject);
+
+            SendMessage("OnEndInteraction", SendMessageOptions.DontRequireReceiver);
         }
     }
 }
