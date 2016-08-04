@@ -27,8 +27,7 @@ public class HatFlair : MonoBehaviour {
     public string flairIcon = null;
     public float flairSize = 0;
 
-	// Use this for initialization
-	void Start () {
+	void Awake () {
 	    if(flairIcon == null || flairIcon == "")
         {
             flairIcon = validFlairs[Random.Range(0, validFlairs.Length)];
