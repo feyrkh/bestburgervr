@@ -44,7 +44,7 @@ public class HatFlair : MonoBehaviour {
     void Start () {
         StartCoroutine("UpdateFlairSettings");
     }
-
+    
     IEnumerator UpdateFlairSettings()
     {
         yield return null;

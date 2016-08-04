@@ -29,8 +29,11 @@ public class SteamVR_Render : MonoBehaviour
 			{
 				_instance = GameObject.FindObjectOfType<SteamVR_Render>();
 
-				if (_instance == null)
-					_instance = new GameObject("[SteamVR]").AddComponent<SteamVR_Render>();
+                if (_instance == null)
+                {
+                    _instance = new GameObject("[SteamVR]").AddComponent<SteamVR_Render>();
+                    DontDestroyOnLoad(_instance) ;
+                }
 			}
 			return _instance;
 		}

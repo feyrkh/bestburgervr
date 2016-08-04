@@ -34,51 +34,56 @@ namespace NewtonVR
 
             if (Initialized == false)
             {
-                Instance = this;
-
-                ControllerCamera = new GameObject("Controller UI Camera").AddComponent<Camera>();
-                ControllerCamera.clearFlags = CameraClearFlags.Nothing;
-                ControllerCamera.cullingMask = 0; // 1 << LayerMask.NameToLayer("UI"); 
-
-                Cursors = new RectTransform[NVRPlayer.Instance.Hands.Length];
-
-                for (int index = 0; index < Cursors.Length; index++)
-                {
-                    GameObject cursor = new GameObject("Cursor for " + NVRPlayer.Instance.Hands[index].gameObject.name);
-                    cursor.transform.parent = this.transform;
-
-                    Canvas canvas = cursor.AddComponent<Canvas>();
-                    cursor.AddComponent<CanvasRenderer>();
-                    cursor.AddComponent<CanvasScaler>();
-                    cursor.AddComponent<NVRUIIgnoreRaycast>();
-                    cursor.AddComponent<GraphicRaycaster>();
-
-                    canvas.renderMode = RenderMode.WorldSpace;
-                    canvas.sortingOrder = 1000; //set to be on top of everything
-
-                    Image image = cursor.AddComponent<Image>();
-                    image.sprite = CursorSprite;
-                    image.material = CursorMaterial;
-
-                    if (CursorSprite == null)
-                        Debug.LogError("Set CursorSprite on " + this.gameObject.name + " to the sprite you want to use as your cursor.", this.gameObject);
-
-                    Cursors[index] = cursor.GetComponent<RectTransform>();
-                }
-
-                CurrentPoint = new GameObject[Cursors.Length];
-                CurrentPressed = new GameObject[Cursors.Length];
-                CurrentDragging = new GameObject[Cursors.Length];
-                PointEvents = new PointerEventData[Cursors.Length];
-
-                Canvas[] canvases = GameObject.FindObjectsOfType<Canvas>();
-                foreach (Canvas canvas in canvases)
-                {
-                    canvas.worldCamera = ControllerCamera;
-                }
-
-                Initialized = true;
+                Initialize();
             }
+        }
+
+        public void Initialize()
+        {
+            Instance = this;
+
+            ControllerCamera = new GameObject("Controller UI Camera").AddComponent<Camera>();
+            ControllerCamera.clearFlags = CameraClearFlags.Nothing;
+            ControllerCamera.cullingMask = 0; // 1 << LayerMask.NameToLayer("UI"); 
+
+            Cursors = new RectTransform[NVRPlayer.Instance.Hands.Length];
+
+            for (int index = 0; index < Cursors.Length; index++)
+            {
+                GameObject cursor = new GameObject("Cursor for " + NVRPlayer.Instance.Hands[index].gameObject.name);
+                cursor.transform.parent = this.transform;
+
+                Canvas canvas = cursor.AddComponent<Canvas>();
+                cursor.AddComponent<CanvasRenderer>();
+                cursor.AddComponent<CanvasScaler>();
+                cursor.AddComponent<NVRUIIgnoreRaycast>();
+                cursor.AddComponent<GraphicRaycaster>();
+
+                canvas.renderMode = RenderMode.WorldSpace;
+                canvas.sortingOrder = 1000; //set to be on top of everything
+
+                Image image = cursor.AddComponent<Image>();
+                image.sprite = CursorSprite;
+                image.material = CursorMaterial;
+
+                if (CursorSprite == null)
+                    Debug.LogError("Set CursorSprite on " + this.gameObject.name + " to the sprite you want to use as your cursor.", this.gameObject);
+
+                Cursors[index] = cursor.GetComponent<RectTransform>();
+            }
+
+            CurrentPoint = new GameObject[Cursors.Length];
+            CurrentPressed = new GameObject[Cursors.Length];
+            CurrentDragging = new GameObject[Cursors.Length];
+            PointEvents = new PointerEventData[Cursors.Length];
+
+            Canvas[] canvases = GameObject.FindObjectsOfType<Canvas>();
+            foreach (Canvas canvas in canvases)
+            {
+                canvas.worldCamera = ControllerCamera;
+            }
+
+            Initialized = true;
         }
 
         // use screen midpoint as locked pointer location, enabling look location to be the "mouse"
@@ -168,6 +173,7 @@ namespace NewtonVR
 
         private void UpdateCameraPosition(int index)
         {
+            if (ControllerCamera == null) Initialize();
             ControllerCamera.transform.position = NVRPlayer.Instance.Hands[index].transform.position;
             ControllerCamera.transform.forward = NVRPlayer.Instance.Hands[index].transform.forward;
         }

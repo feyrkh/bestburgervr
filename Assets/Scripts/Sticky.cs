@@ -2,6 +2,11 @@
 using System.Collections;
 using NewtonVR;
 
+/*
+ * Attach this GameObject (or its parent, if it has one) to anything it collides with.
+ * It uses a fixed joint for attachment rather than reparenting to avoid really bad control
+ * issues around picking up objects with multiple RigidBodies.
+ */
 public class Sticky : MonoBehaviour {
     private bool canAttach = true;
     private NVRInteractableItem interactable;

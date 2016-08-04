@@ -58,6 +58,6 @@ public class FixedWaveCount: WaveRules
 
     protected override void OnEndLevel()
     {
-        SteamVR_LoadLevel.Begin(LevelManager.Instance.menuLevel, false, 2);
+        LevelManager.Instance.ChangeScene(LevelManager.Instance.menuLevel, false, 2);
     }
 }

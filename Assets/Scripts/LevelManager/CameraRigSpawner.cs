@@ -10,11 +10,12 @@ public class CameraRigSpawner : MonoBehaviour {
         if (player == null)
         {
             player = Instantiate(cameraRigPrefab);
-            DontDestroyOnLoad(player.gameObject);
         }
         GameObject playerSpawnPoint = GameObject.Find("playerSpawnPoint");
         Vector3 playerSpawnLocation = Vector3.zero;
         if (playerSpawnPoint != null) playerSpawnLocation = playerSpawnPoint.transform.position;
+        player.transform.position = playerSpawnLocation;
+        DontDestroyOnLoad(player.gameObject);
         Destroy(this);
 	}
 	

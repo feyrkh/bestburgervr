@@ -16,7 +16,8 @@ public class LevelManager : Singleton<LevelManager>
     public TipJar tipJar;
     public GameObject levelPrefab;
     public string menuLevel = null;
-    public int currentlyWornHat = 0;
+    public int currentlyLoadedSaveFile = 0;
+    public bool wearingHat = false;
 
     public void Awake()
     {
@@ -25,9 +26,10 @@ public class LevelManager : Singleton<LevelManager>
 
     public bool WearHat(SaveHat hat)
     {
-        if(currentlyWornHat <= 0)
+        if(!wearingHat || hat.saveFileId == currentlyLoadedSaveFile)
         {
-            currentlyWornHat = hat.saveFileId;
+            currentlyLoadedSaveFile = hat.saveFileId;
+            wearingHat = true;
             return true;
         }
         return false;
@@ -35,7 +37,10 @@ public class LevelManager : Singleton<LevelManager>
 
     public void RemoveHat(SaveHat hat)
     {
-        if(hat.saveFileId == currentlyWornHat) currentlyWornHat = 0;
+        if (hat.saveFileId == currentlyLoadedSaveFile)
+        {
+            wearingHat = false;
+        }
     }
 
     public void OnLevelWasLoaded()
@@ -50,10 +55,33 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
+    public static void BroadcastAll(string fun, System.Object msg)
+    {
+        GameObject[] gos = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+        foreach (GameObject go in gos)
+        {
+            if (go && go.transform.parent == null)
+            {
+                go.gameObject.BroadcastMessage(fun, msg, SendMessageOptions.DontRequireReceiver);
+            }
+        }
+    }
+
+    public void ChangeScene(string sceneName, bool showGrid, float fadeOutTime)
+    {
+        BroadcastAll("OnSceneChanging", null);
+        SteamVR_LoadLevel.Begin(sceneName, showGrid, fadeOutTime);
+    }
+
     public void CountCoins()
     {
         coinCount = FindObjectsOfType<Coin>().Length;
         Debug.Log("Found coin count: " + coinCount);
+        if(currentlyLoadedSaveFile > 0)
+        {
+            SaveHatShelf.GetSaveFile(currentlyLoadedSaveFile).coins = coinCount;
+            SaveHatShelf.Save();
+        }
     }
 
     public void StartLevel()

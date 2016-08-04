@@ -8,26 +8,35 @@ public class SaveHatShelf : MonoBehaviour {
     public float lowHueRange = 0;
     public float highHueRange = 1;
     public SaveHat hatPrefab;
-    public HatFlair hatFlairPrefab;
 
     private static SaveHatData saveData = null;
 
+    public HatFlair hatFlairPrefab;
+    private static HatFlair globalHatFlairPrefab;
+
     public void Awake()
     {
+        if(hatFlairPrefab != null) globalHatFlairPrefab = hatFlairPrefab;
         Load();
+        BuildHats();
+    }
+    
+    public static SaveHatListEntry GetSaveFile(int id)
+    {
+        return saveData.saveHats[id];
     }
 
-    public void Save()
+    public static void Save()
     {
         SaveLoad.Save(saveData, GetSaveFile());
     }
 
-    private string GetSaveFile()
+    private static string GetSaveFile()
     {
         return "hat.shelves";
     }
 
-    public void Load()
+    public static void Load()
     {
         if (saveData == null)
         {
@@ -37,14 +46,13 @@ public class SaveHatShelf : MonoBehaviour {
             }
             catch (Exception e)
             {
-                Debug.Log("Failed to load save file" + e.Message, this);
+                Debug.Log("Failed to load save file" + e.Message);
             }
         }
         if (saveData == null)
         {
             saveData = new SaveHatData();
         }
-        BuildHats();
     }
 
     private void BuildHats()
@@ -55,6 +63,8 @@ public class SaveHatShelf : MonoBehaviour {
         float yPos = GetComponent<Collider>().bounds.extents.y;
         for (int i=0;i<hatCount;i++)
         {
+            // If the player is already wearing the hat we're about to build, don't build it
+            if (LevelManager.Instance.wearingHat && LevelManager.Instance.currentlyLoadedSaveFile == hatId + i) continue;
             SaveHatListEntry curData = null;
             if(saveData.saveHats.ContainsKey(hatId+i)) curData = saveData.saveHats[hatId + i];
             if(curData == null)
@@ -79,11 +89,22 @@ public class SaveHatShelf : MonoBehaviour {
         }
     }
 
-    private void BuildFlair(SaveHat curHat, SaveHatListEntry curData)
+    public static void BuildFlair(SaveHat curHat)
     {
+        SaveHatListEntry curData = GetSaveFile(curHat.saveFileId);
+        if(curData != null)
+        {
+            BuildFlair(curHat, curData);
+        }
+    }
+
+    public static void BuildFlair(SaveHat curHat, SaveHatListEntry curData)
+    {
+        if (curHat.flairLoaded) return;
+        curHat.flairLoaded = true;
         foreach (var entry in curData.flair)
         {
-            HatFlair newFlair = (HatFlair)Instantiate(hatFlairPrefab, curHat.transform, false);
+            HatFlair newFlair = (HatFlair)Instantiate(globalHatFlairPrefab, curHat.transform, false);
             newFlair.transform.localPosition = entry.position.V3;
             newFlair.transform.localRotation = entry.rotation.Q;
             newFlair.transform.SetParent(null);
@@ -140,22 +161,23 @@ internal class FlairIdSearch
 }
 
 [Serializable]
-class SaveHatData
+public class SaveHatData
 {
     public Dictionary<int, SaveHatListEntry> saveHats = new Dictionary<int, SaveHatListEntry>();
 }
 
 [Serializable]
-class SaveHatListEntry
+public class SaveHatListEntry
 {
     public List<SaveHatFlairEntry> flair;
-    internal float b;
-    internal float g;
-    internal float r;
+    public float b;
+    public float g;
+    public float r;
+    public int coins;
 }
 
 [Serializable]
-class SaveHatFlairEntry
+public class SaveHatFlairEntry
 {
     public string id;
     public Vector3Serializer position;

@@ -82,6 +82,6 @@ public class GameSettingsButtonHandler : LeverListener {
         }
         LevelManager.Instance.levelPrefab = prefab.gameObject;
         Debug.Log("LevelManager has settings: " + LevelManager.Instance.settings);
-        SteamVR_LoadLevel.Begin("Main");
+        LevelManager.Instance.ChangeScene("Main", false, 2);
     }
 }
