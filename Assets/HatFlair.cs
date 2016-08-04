@@ -26,13 +26,38 @@ public class HatFlair : MonoBehaviour {
 
     public string flairIcon = null;
     public float flairSize = 0;
+    private string flairId = null;
 
-	void Awake () {
-	    if(flairIcon == null || flairIcon == "")
+    public string FlairId
+    {
+        get
+        {
+            return flairId;
+        }
+
+        set
+        {
+            flairId = value;
+        }
+    }
+
+    void Start () {
+        StartCoroutine("UpdateFlairSettings");
+    }
+
+    IEnumerator UpdateFlairSettings()
+    {
+        yield return null;
+        if (FlairId == null)
+        {
+            FlairId = System.Guid.NewGuid().ToString();
+            Debug.Log("new flair id generated: " + FlairId);
+        }
+        if (flairIcon == null || flairIcon == "")
         {
             flairIcon = validFlairs[Random.Range(0, validFlairs.Length)];
         }
-        if(flairSize == 0)
+        if (flairSize == 0)
         {
             flairSize = validSizes[Random.Range(0, validSizes.Length)];
         }

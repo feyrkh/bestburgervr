@@ -19,8 +19,11 @@ public class Sticky : MonoBehaviour {
 
     public void OnBeginInteraction(NVRHand hand)
     {
-        Destroy(myJoint);
-        myJoint = null;
+        if(myJoint != null) { 
+            myJoint.connectedBody.SendMessageUpwards("OnStickyDetached", transform);
+            Destroy(myJoint);
+            myJoint = null;
+        }
         canAttach = true;
     }
 
@@ -30,11 +33,9 @@ public class Sticky : MonoBehaviour {
         if (!interactable.IsAttached) return;
         if ((collider.gameObject.layer & flairStickyLayer) == 0) return;
         Debug.Log("Sticky touched something, attaching my parent", this);
-        Transform parentTransform = transform.parent;
-        if (parentTransform == null) parentTransform = transform;
         Transform touchedTransform = collider.transform;
         Rigidbody touchedBody = collider.GetComponent<Rigidbody>();
-        if(touchedBody == null)
+        if (touchedBody == null)
         {
             touchedBody = collider.GetComponentInParent<Rigidbody>();
         }
@@ -43,12 +44,9 @@ public class Sticky : MonoBehaviour {
             Debug.Log("Touched item doesn't have a rigidbody", touchedTransform);
             return;
         }
-        Debug.Log("sticky attach parent: ", parentTransform);
         Debug.Log("sticky attach touched: ", touchedTransform);
-        myJoint = parentTransform.gameObject.AddComponent<FixedJoint>();
-        FixedJoint connector = parentTransform.GetComponent<FixedJoint>();
-        connector.connectedBody = touchedBody;
-        canAttach = false;
+        AttachToBody(touchedBody);
+        touchedBody.SendMessageUpwards("OnStickyAttached", transform);
 
         /*
         NewtonVR.NVRInteractable interactable = parentTransform.GetComponent<NewtonVR.NVRInteractable>();
@@ -61,5 +59,16 @@ public class Sticky : MonoBehaviour {
         Destroy(parentCollider);
         Destroy(this.gameObject);
         */
+    }
+
+    public void AttachToBody(Rigidbody attachingTo)
+    {
+        Transform parentTransform = transform.parent;
+        if (parentTransform == null) parentTransform = transform;
+        Debug.Log("sticky attach parent: ", parentTransform);
+        myJoint = parentTransform.gameObject.AddComponent<FixedJoint>();
+        FixedJoint connector = parentTransform.GetComponent<FixedJoint>();
+        connector.connectedBody = attachingTo;
+        canAttach = false;
     }
 }

@@ -23,9 +23,16 @@ public static class SaveLoad
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(UnityEngine.Application.persistentDataPath + "/" + filename, FileMode.Open);
-            T deserialized = (T)bf.Deserialize(file);
-            file.Close();
-            return deserialized;
+
+            try
+            {
+                T deserialized = (T)bf.Deserialize(file);
+                return deserialized;
+            }
+            finally
+            {
+                file.Close();
+            }
         }
         return default(T);
     }
