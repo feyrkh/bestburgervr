@@ -75,6 +75,7 @@ public class SaveHat : MonoBehaviour {
                     transform.GetComponent<Rigidbody>().isKinematic = true;
                     if(reloadLevelAfterAttach)
                     {
+                        ApplyUserSettings(SaveHatShelf.GetSaveFile(saveFileId));
                         LevelManager.Instance.ChangeScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, false, 0.5f);
                     }
                     return;
@@ -88,5 +89,10 @@ public class SaveHat : MonoBehaviour {
             transform.GetComponent<Rigidbody>().isKinematic = false;
             LevelManager.Instance.RemoveHat(this);
         }
+    }
+
+    private void ApplyUserSettings(SaveHatListEntry save)
+    {
+        LevelManager.Instance.coinCount = save.coins;
     }
 }
