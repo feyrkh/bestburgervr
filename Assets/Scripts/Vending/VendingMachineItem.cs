@@ -51,15 +51,11 @@ public class VendingMachineItem : MonoBehaviour {
         StartCoroutine("VendCoroutine", notifyOnVendComplete);
         return true;
     }
-    private IEnumerator VendCoroutine()
-    {
-        yield return VendCoroutine(null);
-    }
 
     private IEnumerator VendCoroutine(GameObject notifyOnVendComplete)
     {
         currentItem.transform.parent = null;
-        yield return MoveUtil.MoveOverSeconds(currentItem, currentItem.transform.position + (Vector3.forward * 0.05f), 1);
+        yield return MoveUtil.MoveOverSeconds(currentItem, currentItem.transform.position - (Vector3.forward * 0.1f), 3);
         currentItem.GetComponent<Rigidbody>().detectCollisions = true;
         currentItem.GetComponent<Rigidbody>().isKinematic = false;
         yield return new WaitForSeconds(0.1f);
@@ -67,6 +63,7 @@ public class VendingMachineItem : MonoBehaviour {
         yield return new WaitForSeconds(0.4f);
         InstantiateNewItem();
         vending = false;
+        Debug.Log("OnVendComplete being called for " + notifyOnVendComplete, notifyOnVendComplete);
         if(notifyOnVendComplete != null) {
             notifyOnVendComplete.SendMessage("OnVendComplete", this);
         }

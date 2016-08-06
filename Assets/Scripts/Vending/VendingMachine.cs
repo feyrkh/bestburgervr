@@ -94,16 +94,14 @@ public class VendingMachine : MonoBehaviour {
             {
                 selectionLabel.displayText = "No Selection: " + selectedLetter + selectedNumber;
                 selectionLabel.Reset();
-                selectedLetter = "?";
-                selectedNumber = "?";
+                ResetSelection();
                 return;
             }
             if(selectedItem.itemCost > coinsInserted)
             {
                 selectionLabel.displayText = "Insert $"+(selectedItem.itemCost-coinsInserted)+" for " + selectedLetter + selectedNumber;
                 selectionLabel.Reset();
-                selectedLetter = "?";
-                selectedNumber = "?";
+                ResetSelection();
                 return;
             }
             currentlyVending = true;
@@ -113,9 +111,18 @@ public class VendingMachine : MonoBehaviour {
         }
     }
 
-    private void OnVendComplete()
+    public void OnVendComplete()
     {
+        Debug.Log("Vending complete");
         currentlyVending = false;
+        ResetSelection();
+        UpdateLabels();
+    }
+
+    private void ResetSelection()
+    {
+        selectedLetter = "?";
+        selectedNumber = "?";
     }
 
     internal IEnumerator RefundCoins()
