@@ -55,15 +55,24 @@ public class HatFlair : MonoBehaviour {
         }
         if (flairIcon == null || flairIcon == "")
         {
-            flairIcon = validFlairs[Random.Range(0, validFlairs.Length)];
+            ChooseRandomFlairIcon();
         }
         if (flairSize == 0)
         {
             flairSize = validSizes[Random.Range(0, validSizes.Length)];
         }
+        ApplyFlairSettings();
+    }
+
+    public void ApplyFlairSettings()
+    {
         transform.localScale = new Vector3(flairSize, 0.002f, flairSize);
         Texture textureResource = Resources.Load<Texture>(flairIcon);
         GetComponent<MeshRenderer>().material.mainTexture = textureResource;
     }
-    
+
+    public void ChooseRandomFlairIcon()
+    {
+        flairIcon = validFlairs[Random.Range(0, validFlairs.Length)];
+    }
 }

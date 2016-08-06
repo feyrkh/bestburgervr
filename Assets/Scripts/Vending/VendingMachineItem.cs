@@ -5,7 +5,7 @@ using VRTK;
 public class VendingMachineItem : MonoBehaviour {
     public GameObject itemPrefab;
     public string itemName = "???";
-    public string positionId = "A1";
+    public string positionId;
     public int itemCost = 1;
     private GameObject currentItem;
     private bool vending = false;
@@ -13,6 +13,7 @@ public class VendingMachineItem : MonoBehaviour {
     
     public void Start()
     {
+        positionId = this.name + this.transform.parent.name;
         InstantiateNewItem();
         InstantiateLabel();
     }
