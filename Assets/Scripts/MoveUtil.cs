@@ -16,7 +16,7 @@ public class MoveUtil  {
             yield return new WaitForEndOfFrame();
         }
         objectToMove.transform.localPosition = end;
-        objectToMove.transform.localEulerAngles = Vector3.zero;
+        //objectToMove.transform.localEulerAngles = Vector3.zero;
     }
 
 }

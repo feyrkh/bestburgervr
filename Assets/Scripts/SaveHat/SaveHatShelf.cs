@@ -80,7 +80,7 @@ public class SaveHatShelf : MonoBehaviour {
                 Debug.Log("Creating new hat. hue=" + hue + ", id=" + (hatId + i));
             }
             Vector3 position = new Vector3(0, yPos, spacePerHat / 2 + spacePerHat * i - (shelfWidth/2));
-            SaveHat curHat = (SaveHat)Instantiate(hatPrefab, position + transform.position, Quaternion.identity);
+            SaveHat curHat = (SaveHat)Instantiate(hatPrefab, position + transform.position, Quaternion.Euler(0, -160, 0));
             Debug.Log("Instantiated hat", curHat);
             curHat.SetColor(new Color(curData.r, curData.g, curData.b));
             curHat.shelf = this;

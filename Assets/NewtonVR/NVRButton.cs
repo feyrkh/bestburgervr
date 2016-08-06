@@ -66,7 +66,14 @@ namespace NewtonVR
             CurrentDistance = Vector3.Distance(this.transform.position, InitialPosition.position);
 
             Vector3 PositionDelta = InitialPosition.position - this.transform.position;
-            this.Rigidbody.velocity = PositionDelta * PositionMagic * Time.fixedDeltaTime;
+            if (PositionDelta.sqrMagnitude < 0.000001f)
+            {
+                this.Rigidbody.velocity = Vector3.zero;
+            }
+            else
+            {
+                this.Rigidbody.velocity = PositionDelta * PositionMagic * Time.fixedDeltaTime;
+            }
         }
 
         private void Update()
@@ -77,6 +84,7 @@ namespace NewtonVR
             if (ButtonWasPushed == false && ButtonIsPushed == true)
             {
                 ButtonDown = true;
+                Debug.Log("Button pressed: " + buttonName);
                 SendMessageUpwards("OnButtonPushed", buttonName);
             }
             else
