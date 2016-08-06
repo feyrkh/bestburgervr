@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class MysteryHatFlair : MonoBehaviour {
-    public void OnVend()
+    public void OnVendComplete()
     {
         GetComponent<HatFlair>().ChooseRandomFlairIcon();
         GetComponent<HatFlair>().ApplyFlairSettings();

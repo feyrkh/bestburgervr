@@ -84,6 +84,38 @@ public class VendingMachine : MonoBehaviour {
             }
             UpdateLabels();
         }
+        if(selectedLetter != "?" && selectedNumber != "?")
+        {
+            Transform selected = transform.FindChild("items/" + selectedNumber + "/" + selectedLetter);
+            VendingMachineItem selectedItem = null;
+            GameObject vendingItem = null;
+            if (selected != null) selectedItem = selected.GetComponent<VendingMachineItem>();
+            if(selectedItem == null) 
+            {
+                selectionLabel.displayText = "No Selection: " + selectedLetter + selectedNumber;
+                selectionLabel.Reset();
+                selectedLetter = "?";
+                selectedNumber = "?";
+                return;
+            }
+            if(selectedItem.itemCost > coinsInserted)
+            {
+                selectionLabel.displayText = "Insert $"+(selectedItem.itemCost-coinsInserted)+" for " + selectedLetter + selectedNumber;
+                selectionLabel.Reset();
+                selectedLetter = "?";
+                selectedNumber = "?";
+                return;
+            }
+            currentlyVending = true;
+            coinsInserted -= selectedItem.itemCost;
+            UpdateLabels();
+            selectedItem.Vend(this.gameObject);
+        }
+    }
+
+    private void OnVendComplete()
+    {
+        currentlyVending = false;
     }
 
     internal IEnumerator RefundCoins()

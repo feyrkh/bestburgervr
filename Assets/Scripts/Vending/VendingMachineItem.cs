@@ -7,7 +7,7 @@ public class VendingMachineItem : MonoBehaviour {
     public string itemName = "???";
     public string positionId;
     public int itemCost = 1;
-    private GameObject currentItem;
+    public GameObject currentItem;
     private bool vending = false;
     public VendingMachineLabel labelPrefab;
     
@@ -62,7 +62,9 @@ public class VendingMachineItem : MonoBehaviour {
         yield return MoveUtil.MoveOverSeconds(currentItem, currentItem.transform.position + (Vector3.forward * 0.05f), 1);
         currentItem.GetComponent<Rigidbody>().detectCollisions = true;
         currentItem.GetComponent<Rigidbody>().isKinematic = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
+        currentItem.SendMessage("OnVendComplete", SendMessageOptions.DontRequireReceiver);
+        yield return new WaitForSeconds(0.4f);
         InstantiateNewItem();
         vending = false;
         if(notifyOnVendComplete != null) {
