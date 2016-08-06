@@ -6,12 +6,16 @@ using VRTK;
 public class VendingMachine : MonoBehaviour {
     private int coinsInserted = 0;
     public VRTK_ObjectTooltip coinsInsertedLabel;
+    public VRTK_ObjectTooltip selectionLabel;
     public Transform coinReturnPoint;
     public Coin oneDollarCoinPrefab;
     public Coin fiveDollarCoinPrefab;
     public Coin twentyDollarCoinPrefab;
     public float timeBetweenRefundCoins = 0.08f;
     private bool refunding = false;
+    private bool currentlyVending = false;
+    private string selectedLetter = "?";
+    private string selectedNumber = "?";
 
     public void Awake()
     {
@@ -35,6 +39,19 @@ public class VendingMachine : MonoBehaviour {
             coinsInsertedLabel.displayText = "Credit: $" + coinsInserted;
             coinsInsertedLabel.Reset();
         }
+        string selectionText;
+        if(currentlyVending)
+        {
+            selectionText = "Vending: "+selectedLetter+selectedNumber;
+        } else if(refunding)
+        {
+            selectionText = "Take Change";
+        } else
+        {
+            selectionText = "Selection: " + selectedLetter + selectedNumber;
+        }
+        selectionLabel.displayText = selectionText;
+        selectionLabel.Reset();
     }
 
     internal void CoinInserted(Coin coin)
@@ -46,16 +63,32 @@ public class VendingMachine : MonoBehaviour {
 
     public void OnButtonPushed(string buttonName)
     {
+        if(currentlyVending || refunding)
+        {
+            return;
+        }
         Debug.Log("Vending machine button pressed: " + buttonName);
         if(buttonName.Equals("refund"))
         {
             StartCoroutine(RefundCoins());
         }
+        if(buttonName.Length == 1)
+        {
+            if (buttonName[0] >= 'A' && buttonName[0] <= 'F')
+            {
+                selectedLetter = buttonName;
+            }
+            if (buttonName[0] >= '1' && buttonName[0] <= '9')
+            {
+                selectedNumber = buttonName;
+            }
+            UpdateLabels();
+        }
     }
 
     internal IEnumerator RefundCoins()
     {
-        if (!refunding) {
+        if (!refunding && !currentlyVending) {
             Debug.Log("Starting refund process for $"+coinsInserted);
             refunding = true;
             if (twentyDollarCoinPrefab != null)
