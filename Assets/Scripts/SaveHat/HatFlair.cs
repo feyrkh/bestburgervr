@@ -51,7 +51,7 @@ public class HatFlair : MonoBehaviour {
         yield return null;
         if(flairShiny < 0)
         {
-            flairShiny = Random.Range(0, 100) > 98 ? 1 : 0;
+            flairShiny = Random.Range(0, 100) >= 98 ? 1 : 0;
         }
         if (FlairId == null)
         {
