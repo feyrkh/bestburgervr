@@ -4,10 +4,11 @@ using System;
 
 public class RandomOrderRules : OrderRules {
     public string[] ingredientsAllowed = new string[] { "meat", "ketchup", "lettuce", "tomato" };
-    public int orderComplexity = 2;
+    private int orderComplexity = 2;
 
     public override void GenerateOrder(NpcOrder npc)
     {
+        orderComplexity = LevelManager.Instance.orderRules.CalculateCurrentOrderComplexity();
         string[] newOrder = new string[orderComplexity + 2];
         newOrder[0] = "bottom_bun";
         newOrder[newOrder.Length - 1] = "top_bun";

@@ -12,7 +12,7 @@ public class LevelManager : Singleton<LevelManager>
     public NpcExitStyle npcExitStyle;
     public Transform startPosition;
     public Transform orderPosition;
-    public float coinCount = 90.75f;
+    public float coinCount = 0;
     public TipJar tipJar;
     public GameObject levelPrefab;
     public string menuLevel = null;
@@ -75,8 +75,13 @@ public class LevelManager : Singleton<LevelManager>
 
     public void CountCoins()
     {
-        coinCount = FindObjectsOfType<Coin>().Length;
+        Coin[] coins = FindObjectsOfType<Coin>();
         Debug.Log("Found coin count: " + coinCount);
+        coinCount = 0;
+        foreach (Coin coin in coins)
+        {
+            coinCount += coin.coinValue;
+        }
         if(currentlyLoadedSaveFile > 0)
         {
             SaveHatShelf.GetSaveFile(currentlyLoadedSaveFile).coins = coinCount;
@@ -194,6 +199,11 @@ public abstract class WaveRules : MonoBehaviour
 
 public abstract class OrderRules : MonoBehaviour
 {
+    public virtual int CalculateCurrentOrderComplexity()
+    {
+        return Mathf.RoundToInt(1.5f + LevelManager.Instance.settings.difficultyLevel * 0.55f + Random.Range(-0.6f, 0.6f));
+    }
+
     public abstract void GenerateOrder(NpcOrder npc);
 }
 
@@ -260,6 +270,15 @@ public class LevelSettings
     public string[] gameModeOptions = { MODE_FAST_FOOD, MODE_EARLY_BIRD, MODE_LUNCH_RUSH, MODE_FRANCHISE };
     public int[] customerCountOptions = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9999 };
     public int[] difficultyLevelOptions = { 1, 2, 3, 4, 5 };
+    public float bonusScaling {
+        get
+        {
+            float minScaling = 0.6f;
+            float maxScaling = 1.4f;
+            float scaleStep = (maxScaling - minScaling) / (difficultyLevelOptions.Length-1);
+            return minScaling + scaleStep * _difficultyLevelIndex;
+        }
+    }
 }
 
 public enum GameMode

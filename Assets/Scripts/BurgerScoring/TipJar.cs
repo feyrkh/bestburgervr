@@ -17,7 +17,7 @@ public class TipJar : MonoBehaviour {
     public IEnumerator SpawnCoinsCoroutine(float tipTotal) {
         Coin coinPrefab;
         Debug.Log("Spawning coins: " + tipTotal);
-        while (tipTotal > 0)
+        while (tipTotal > 0.12f)
         {
             if (tipTotal >= 20) coinPrefab = twentyDollarCoinPrefab;
             else if (tipTotal >= 5) coinPrefab = fiveDollarCoinPrefab;

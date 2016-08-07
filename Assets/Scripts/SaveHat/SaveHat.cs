@@ -5,7 +5,6 @@ using System;
 public class SaveHat : MonoBehaviour {
     public int saveFileId;
     public Color color;
-    public SaveHatShelf shelf;
     public int coinCount;
     public bool flairLoaded = false;
 	
@@ -37,7 +36,7 @@ public class SaveHat : MonoBehaviour {
             Debug.LogError("Sticky item was attached, but it's not a HatFlair instance", stickyParent);
             return;
         }
-        shelf.AddFlair(this, flair);
+        SaveHatShelf.AddFlair(this, flair);
     }
 
     public void OnStickyDetached(Transform stickyParent)
@@ -48,7 +47,7 @@ public class SaveHat : MonoBehaviour {
             Debug.LogError("Sticky item was detached, but it's not a HatFlair instance", stickyParent);
             return;
         }
-        shelf.RemoveFlair(this, flair);
+        SaveHatShelf.RemoveFlair(this, flair);
     }
 
     public void OnSceneChanging()

@@ -103,7 +103,7 @@ public class HappinessScoreDisplay : MonoBehaviour
     {
         if (desiredIngredients.Length == 0) return 100;
         float expectedTime = baseSecondsForBurger + secondsPerIngredient * desiredIngredients.Length;
-        float speedPenalty = 50 * (timeSinceOrderStarted / expectedTime) - 25;
+        float speedPenalty = 50 * (timeSinceOrderStarted / expectedTime) - 27;
         if (speedPenalty > 100) speedPenalty = 100;
         if (speedPenalty < 0) speedPenalty = 0;
         Debug.Log("SpeedScore=" + (100-speedPenalty) +", timesinceOrderStarted="+timeSinceOrderStarted+", expectedTime="+expectedTime);
@@ -150,16 +150,27 @@ public class HappinessScoreDisplay : MonoBehaviour
 
     private void ApplyScoreTexture(float score, MeshRenderer label) {
         string texture = "neutral";
-        if (score >= 90) {
-            tipTotal += .5f;
+        float bonusScaling = LevelManager.Instance.settings.bonusScaling;
+        if (score >= 90)
+        {
+            tipTotal += 0.3f * bonusScaling;
             texture = "very_happy";
-        } else if (score >= 70) {
-            tipTotal += .25f;
+        }
+        else if (score >= 70)
+        {
+            tipTotal += .15f * bonusScaling;
             texture = "happy";
-        } else if (score >= 50) texture = "neutral";
-        else if (score >= 25) {
-            tipTotal -= .25f;
-            texture = "unhappy"; }
+        }
+        else if (score >= 50)
+        {
+            tipTotal += .05f * bonusScaling;
+            texture = "neutral";
+        }
+        else if (score >= 25)
+        {
+            tipTotal -= 0.2f;
+            texture = "unhappy";
+        }
         else
         {
             tipTotal -= .75f;

@@ -84,7 +84,6 @@ public class SaveHatShelf : MonoBehaviour {
             SaveHat curHat = (SaveHat)Instantiate(hatPrefab, position + transform.position, Quaternion.Euler(0, -160, 0));
             Debug.Log("Instantiated hat", curHat);
             curHat.SetColor(new Color(curData.r, curData.g, curData.b));
-            curHat.shelf = this;
             curHat.saveFileId = hatId + i;
             BuildFlair(curHat, curData);
         }
@@ -118,12 +117,12 @@ public class SaveHatShelf : MonoBehaviour {
         }
     }
 
-    internal void RemoveFlair(SaveHat saveHat, HatFlair flair)
+    internal static void RemoveFlair(SaveHat saveHat, HatFlair flair)
     {
         SaveHatListEntry curData = null;
         if (!saveData.saveHats.ContainsKey(saveHat.saveFileId))
         {
-            Debug.LogError("Invalid save file ID: " + saveHat.saveFileId, this);
+            Debug.LogError("Invalid save file ID: " + saveHat.saveFileId, saveHat);
             return;
         }
         curData = saveData.saveHats[saveHat.saveFileId];
@@ -132,12 +131,12 @@ public class SaveHatShelf : MonoBehaviour {
         Save();
     }
 
-    internal void AddFlair(SaveHat saveHat, HatFlair flair)
+    internal static void AddFlair(SaveHat saveHat, HatFlair flair)
     {
         SaveHatListEntry curData = null;
         if (!saveData.saveHats.ContainsKey(saveHat.saveFileId))
         {
-            Debug.LogError("Invalid save file ID: " + saveHat.saveFileId, this);
+            Debug.LogError("Invalid save file ID: " + saveHat.saveFileId, saveHat);
             return;
         }
         curData = saveData.saveHats[saveHat.saveFileId];
