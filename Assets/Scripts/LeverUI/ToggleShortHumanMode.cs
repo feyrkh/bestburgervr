@@ -42,7 +42,7 @@ public class ToggleShortHumanMode : MonoBehaviour {
     {
         var player = FindObjectOfType<NewtonVR.NVRPlayer>();
         Vector3 start = player.transform.localScale;
-        Vector3 end = new Vector3(1, target, 1);
+        Vector3 end = new Vector3(target, target, target);
         float secondsElapsed = 0;
         while(secondsElapsed < secondsToChange)
         {
