@@ -7,7 +7,7 @@ public class HappinessScoreDisplay : MonoBehaviour
 {
     public float baseSecondsForBurger = 6f;
     public float secondsPerIngredient = 1.5f;
-    int tipTotal;
+    float tipTotal;
     TipJar tipJar;
 
     public void Awake()
@@ -151,18 +151,18 @@ public class HappinessScoreDisplay : MonoBehaviour
     private void ApplyScoreTexture(float score, MeshRenderer label) {
         string texture = "neutral";
         if (score >= 90) {
-            tipTotal += 2;
+            tipTotal += .5f;
             texture = "very_happy";
         } else if (score >= 70) {
-            tipTotal += 1;
+            tipTotal += .25f;
             texture = "happy";
         } else if (score >= 50) texture = "neutral";
         else if (score >= 25) {
-            tipTotal -= 1;
+            tipTotal -= .25f;
             texture = "unhappy"; }
         else
         {
-            tipTotal -= 3;
+            tipTotal -= .75f;
             texture = "very_unhappy";
         }
         Texture textureResource = Resources.Load<Texture>(texture);

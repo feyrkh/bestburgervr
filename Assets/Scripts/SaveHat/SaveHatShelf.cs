@@ -70,12 +70,13 @@ public class SaveHatShelf : MonoBehaviour {
             if(curData == null)
             {
                 curData = new SaveHatListEntry();
-                float hue = lowHueRange + ((highHueRange - lowHueRange) / hatCount) * i;
+                float hue = lowHueRange + (((highHueRange - lowHueRange) / hatCount) * i);
                 Color color = Color.HSVToRGB(hue, 1f, 1f);
                 curData.r = color.r;
                 curData.g = color.g;
                 curData.b = color.b;
                 curData.flair = new List<SaveHatFlairEntry>();
+                curData.coins = 2;
                 saveData.saveHats[hatId + i] = curData;
                 Debug.Log("Creating new hat. hue=" + hue + ", id=" + (hatId + i));
             }
@@ -112,6 +113,7 @@ public class SaveHatShelf : MonoBehaviour {
             newFlair.flairIcon = entry.icon;
             newFlair.FlairId = entry.id;
             newFlair.flairSize = entry.size;
+            newFlair.flairShiny = entry.shiny ? 1 : 0;
             Debug.Log("Restored flair " + newFlair.FlairId + " to hat " + curHat.saveFileId);
         }
     }
@@ -173,7 +175,7 @@ public class SaveHatListEntry
     public float b;
     public float g;
     public float r;
-    public int coins;
+    public float coins;
 }
 
 [Serializable]
@@ -184,6 +186,7 @@ public class SaveHatFlairEntry
     public QuaternionSerializer rotation;
     public string icon;
     public float size;
+    public bool shiny;
 
     public SaveHatFlairEntry() { }
 
@@ -197,10 +200,11 @@ public class SaveHatFlairEntry
         flair.transform.parent = originalParent;
         this.icon = flair.flairIcon;
         this.size = flair.flairSize;
+        this.shiny = flair.flairShiny == 1;
     }
 
     public override string ToString()
     {
-        return "FlairId{icon=" + icon + ", size=" + size + "}";
+        return "FlairId{icon=" + icon + ", size=" + size + ", shiny="+ shiny + "}";
     }
 }

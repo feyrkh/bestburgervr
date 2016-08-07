@@ -26,6 +26,7 @@ public class HatFlair : MonoBehaviour {
 
     public string flairIcon = null;
     public float flairSize = 0;
+    public int flairShiny = -1;
     private string flairId = null;
 
     public string FlairId
@@ -48,6 +49,10 @@ public class HatFlair : MonoBehaviour {
     IEnumerator UpdateFlairSettings()
     {
         yield return null;
+        if(flairShiny < 0)
+        {
+            flairShiny = Random.Range(0, 100) > 98 ? 1 : 0;
+        }
         if (FlairId == null)
         {
             FlairId = System.Guid.NewGuid().ToString();
@@ -55,7 +60,7 @@ public class HatFlair : MonoBehaviour {
         }
         if (flairIcon == null || flairIcon == "")
         {
-            ChooseRandomFlairIcon();
+            flairIcon = ChooseRandomFlairIcon();
         }
         if (flairSize == 0)
         {
@@ -64,15 +69,25 @@ public class HatFlair : MonoBehaviour {
         ApplyFlairSettings();
     }
 
+    public void OnPreVend(string itemName)
+    {
+        if (itemName != null && itemName != "")
+        {
+            flairIcon = itemName;
+            ApplyFlairSettings();
+        }
+    }
+
     public void ApplyFlairSettings()
     {
         transform.localScale = new Vector3(flairSize, 0.002f, flairSize);
         Texture textureResource = Resources.Load<Texture>(flairIcon);
         GetComponent<MeshRenderer>().material.mainTexture = textureResource;
+        GetComponent<MeshRenderer>().material.SetFloat(Shader.PropertyToID("_Metallic"), flairShiny > 0 ? .95f : 0.05f);
     }
 
-    public void ChooseRandomFlairIcon()
+    public static string ChooseRandomFlairIcon()
     {
-        flairIcon = validFlairs[Random.Range(0, validFlairs.Length)];
+        return validFlairs[Random.Range(0, validFlairs.Length)];
     }
 }

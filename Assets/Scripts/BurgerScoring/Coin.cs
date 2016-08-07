@@ -2,5 +2,5 @@
 using System.Collections;
 
 public class Coin : MonoBehaviour {
-    public int coinValue = 1;
+    public float coinValue = 1;
 }

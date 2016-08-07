@@ -12,7 +12,7 @@ public class LevelManager : Singleton<LevelManager>
     public NpcExitStyle npcExitStyle;
     public Transform startPosition;
     public Transform orderPosition;
-    public int coinCount = 0;
+    public float coinCount = 90.75f;
     public TipJar tipJar;
     public GameObject levelPrefab;
     public string menuLevel = null;

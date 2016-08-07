@@ -5,15 +5,16 @@ using VRTK;
 public class VendingMachineItem : MonoBehaviour {
     public GameObject itemPrefab;
     public string itemName = "???";
-    public string positionId;
+    internal string positionId;
     public int itemCost = 1;
     public GameObject currentItem;
     private bool vending = false;
     public VendingMachineLabel labelPrefab;
+    public float labelYOffset = -0.06f;
     
     public void Start()
     {
-        positionId = this.name + this.transform.parent.name;
+        positionId = this.transform.parent.name + this.name;
         InstantiateNewItem();
         InstantiateLabel();
     }
@@ -21,6 +22,7 @@ public class VendingMachineItem : MonoBehaviour {
     private void InstantiateNewItem()
     {
         currentItem = (GameObject)Instantiate(itemPrefab, transform, false);
+        currentItem.SendMessage("OnPreVend", itemName, SendMessageOptions.DontRequireReceiver);
         currentItem.transform.localPosition = Vector3.zero;
         currentItem.transform.parent = null;
         currentItem.GetComponent<Rigidbody>().detectCollisions = false;
@@ -33,7 +35,8 @@ public class VendingMachineItem : MonoBehaviour {
         Bounds bounds = VRTK.Utilities.getBounds(currentItem.transform);
         Bounds labelBounds = VRTK.Utilities.getBounds(labelPrefab.transform);
         //float yOffset = -bounds.extents.y - 0.01f - labelBounds.extents.y;
-        float yOffset = -bounds.extents.y - 0.07f;
+        //float yOffset = -bounds.extents.y - 0.07f;
+        float yOffset = labelYOffset;
         Debug.Log("Setting y offset of " + yOffset);
         label.transform.position = transform.position + new Vector3(0, yOffset, 0);
         label.GetComponentInChildren<VRTK_ObjectTooltip>().displayText = positionId + ": $" + itemCost;

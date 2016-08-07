@@ -4,10 +4,11 @@ using System;
 using VRTK;
 
 public class VendingMachine : MonoBehaviour {
-    private int coinsInserted = 0;
+    private double coinsInserted = 0;
     public VRTK_ObjectTooltip coinsInsertedLabel;
     public VRTK_ObjectTooltip selectionLabel;
     public Transform coinReturnPoint;
+    public Coin quarterDollarCoinPrefab;
     public Coin oneDollarCoinPrefab;
     public Coin fiveDollarCoinPrefab;
     public Coin twentyDollarCoinPrefab;
@@ -36,7 +37,7 @@ public class VendingMachine : MonoBehaviour {
         }
         else
         {
-            coinsInsertedLabel.displayText = "Credit: $" + coinsInserted;
+            coinsInsertedLabel.displayText = "Credit: $" + String.Format("{0:N2}", coinsInserted);
             coinsInsertedLabel.Reset();
         }
         string selectionText;
@@ -86,7 +87,7 @@ public class VendingMachine : MonoBehaviour {
         }
         if(selectedLetter != "?" && selectedNumber != "?")
         {
-            Transform selected = transform.FindChild("items/" + selectedNumber + "/" + selectedLetter);
+            Transform selected = transform.FindChild("items/" + selectedLetter + "/" + selectedNumber);
             VendingMachineItem selectedItem = null;
             GameObject vendingItem = null;
             if (selected != null) selectedItem = selected.GetComponent<VendingMachineItem>();
@@ -114,6 +115,7 @@ public class VendingMachine : MonoBehaviour {
     public void OnVendComplete()
     {
         Debug.Log("Vending complete");
+        LevelManager.Instance.CountCoins();
         currentlyVending = false;
         ResetSelection();
         UpdateLabels();
@@ -132,23 +134,30 @@ public class VendingMachine : MonoBehaviour {
             refunding = true;
             if (twentyDollarCoinPrefab != null)
             {
-                while (coinsInserted > 20)
+                while (coinsInserted >= 20)
                 {
                     yield return RefundCoin(twentyDollarCoinPrefab, 20);
                 }
             }
             if (fiveDollarCoinPrefab != null)
             {
-                while (coinsInserted > 5)
+                while (coinsInserted >= 5)
                 {
                     yield return RefundCoin(fiveDollarCoinPrefab, 5);
                 }
             }
             if (oneDollarCoinPrefab != null)
             {
-                while (coinsInserted > 0)
+                while (coinsInserted >= 1)
                 {
                     yield return RefundCoin(oneDollarCoinPrefab, 1);
+                }
+            }
+            if (quarterDollarCoinPrefab != null)
+            {
+                while (coinsInserted > 0)
+                {
+                    yield return RefundCoin(quarterDollarCoinPrefab, 0.25f);
                 }
             }
             refunding = false;
@@ -158,7 +167,7 @@ public class VendingMachine : MonoBehaviour {
         }
     }
 
-    private IEnumerator RefundCoin(Coin coinPrefab, int coinValue)
+    private IEnumerator RefundCoin(Coin coinPrefab, float coinValue)
     {
         Coin newCoin = Instantiate(coinPrefab);
         newCoin.transform.position = coinReturnPoint.position;
@@ -167,5 +176,6 @@ public class VendingMachine : MonoBehaviour {
         UpdateLabels();
         Debug.Log("Refunded " + coinValue);
         yield return new WaitForSeconds(timeBetweenRefundCoins);
+        LevelManager.Instance.CountCoins();
     }
 }
