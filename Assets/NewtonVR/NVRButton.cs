@@ -27,7 +27,7 @@ namespace NewtonVR
         protected Transform InitialPosition;
         protected float MinDistance = 0.001f;
 
-        protected float PositionMagic = 1000f;
+        protected float PositionMagic = 5000f;
 
         protected float CurrentDistance = -1;
 
@@ -66,7 +66,7 @@ namespace NewtonVR
             CurrentDistance = Vector3.Distance(this.transform.position, InitialPosition.position);
 
             Vector3 PositionDelta = InitialPosition.position - this.transform.position;
-            if (PositionDelta.sqrMagnitude < 0.000001f)
+            if (PositionDelta.sqrMagnitude < 0.00000001f)
             {
                 this.Rigidbody.velocity = Vector3.zero;
             }
