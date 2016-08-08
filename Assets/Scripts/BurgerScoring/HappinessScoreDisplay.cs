@@ -151,7 +151,7 @@ public class HappinessScoreDisplay : MonoBehaviour
     private void ApplyScoreTexture(float score, MeshRenderer label) {
         string texture = "neutral";
         float bonusScaling = LevelManager.Instance.settings.bonusScaling;
-        if (score >= 90)
+        if (score >= 88)
         {
             tipTotal += 0.3f * bonusScaling;
             texture = "very_happy";
