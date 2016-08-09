@@ -5,8 +5,8 @@ using System;
 
 public class HappinessScoreDisplay : MonoBehaviour
 {
-    public float baseSecondsForBurger = 6f;
-    public float secondsPerIngredient = 1.5f;
+    public float baseSecondsForBurger = 5f;
+    public float secondsPerIngredient = 2f;
     float tipTotal;
     TipJar tipJar;
 
@@ -103,7 +103,7 @@ public class HappinessScoreDisplay : MonoBehaviour
     {
         if (desiredIngredients.Length == 0) return 100;
         float expectedTime = baseSecondsForBurger + secondsPerIngredient * desiredIngredients.Length;
-        float speedPenalty = 50 * (timeSinceOrderStarted / expectedTime) - 27;
+        float speedPenalty = 50 * (timeSinceOrderStarted / expectedTime) - 35;
         if (speedPenalty > 100) speedPenalty = 100;
         if (speedPenalty < 0) speedPenalty = 0;
         Debug.Log("SpeedScore=" + (100-speedPenalty) +", timesinceOrderStarted="+timeSinceOrderStarted+", expectedTime="+expectedTime);

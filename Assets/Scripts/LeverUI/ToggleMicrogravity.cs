@@ -6,7 +6,7 @@ public class ToggleMicrogravity : MonoBehaviour {
 
     public void OnSwitchEnabled(string switchName)
     {
-        Physics.gravity = new Vector3(0, -0.01f, 0);
+        Physics.gravity = new Vector3(0, -0.15f, 0);
     }
     public void OnSwitchDisabled(string switchName)
     {
