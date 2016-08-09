@@ -11,6 +11,7 @@ public class SpawnWhenNotInView : MonoBehaviour {
     public string spawnedTag = "spawned";
     public float pauseBetweenSpawns = 1f;
     public int desiredSpawnCount = 1;
+    public Vector3 spawnRotation = Vector3.zero;
 
     void Awake()
     {
@@ -42,6 +43,7 @@ public class SpawnWhenNotInView : MonoBehaviour {
         {
             GameObject item = (GameObject)Instantiate(spawnPrefab, spawnPoint.position, spawnPoint.rotation);
             item.tag = spawnedTag;
+            item.transform.rotation = Quaternion.Euler(spawnRotation);
         }
     }
 }
