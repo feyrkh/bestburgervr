@@ -72,7 +72,6 @@ public class TopBunDetector : MonoBehaviour {
 		float totalDistanceFromBaseCenterAxis = 0;
 		float totalDistanceFromPreviousCenterAxis = 0;
 
-
         Destroy(burgerScanner.GetComponent<Ingredient>());
         Destroy(burgerScanner.GetComponent<Rigidbody>());
         string[] ingredientNames = new string[ingredients.Capacity];

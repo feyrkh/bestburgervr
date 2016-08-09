@@ -61,20 +61,4 @@ public class IngredientsList : MonoBehaviour {
 		signPrefab.transform.localScale = new Vector3 (signPrefab.transform.localScale.x, scale * expectedHeight, signPrefab.transform.localScale.z);
 		signPrefab.transform.localPosition = new Vector3 (0,labelPosition.y - (scale*expectedHeight / 2), 0);
 	}
-
-	// Use this for initialization
-	void Start () {
-		StartCoroutine ("RunTest");
-	}
-
-	IEnumerator RunTest() {
-		while(true) {
-			if(testIngredientList == true) {
-				SetIngredientList(new string[] {"bottom_bun", "meat", "cheese", "tomato", "top_bun"});
-				testIngredientList = false;
-			}
-			yield return new WaitForSeconds (2);
-		}
-	}
-	
 }
