@@ -76,8 +76,8 @@ public class BurgerScorer : MonoBehaviour
     public virtual float CalcSpeedScore(string[] desiredIngredients, float timeSinceOrderStarted)
     {
         if (desiredIngredients.Length == 0) return 100;
-        float expectedTime = baseSecondsForBurger + secondsPerIngredient * desiredIngredients.Length;
-        float speedPenalty = 50 * (timeSinceOrderStarted / expectedTime) - 35;
+        float expectedTime = baseSecondsForBurger + secondsPerIngredient * desiredIngredients.Length - LevelManager.Instance.settings.difficultyLevel;
+        float speedPenalty = 50 * (timeSinceOrderStarted / expectedTime) - 25;
         if (speedPenalty > 100) speedPenalty = 100;
         if (speedPenalty < 0) speedPenalty = 0;
         Debug.Log("SpeedScore=" + (100 - speedPenalty) + ", timesinceOrderStarted=" + timeSinceOrderStarted + ", expectedTime=" + expectedTime);

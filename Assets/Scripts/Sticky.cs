@@ -70,7 +70,7 @@ public class Sticky : MonoBehaviour {
     {
         Transform parentTransform = transform.parent;
         if (parentTransform == null) parentTransform = transform;
-        Debug.Log("sticky attach parent: ", parentTransform);
+       // Debug.Log("sticky attach parent: ", parentTransform);
         myJoint = parentTransform.gameObject.AddComponent<FixedJoint>();
         FixedJoint connector = parentTransform.GetComponent<FixedJoint>();
         connector.connectedBody = attachingTo;

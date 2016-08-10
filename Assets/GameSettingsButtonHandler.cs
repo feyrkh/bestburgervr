@@ -6,6 +6,7 @@ public class GameSettingsButtonHandler : LeverListener {
     public WaveRules earlyBirdLevelPrefab;
     public WaveRules lunchRushLevelPrefab;
     public WaveRules campaignLevelPrefab;
+    public GameObject hatWarning;
 
     public VRTK.VRTK_ObjectTooltip gameModeLabel;
     public VRTK.VRTK_ObjectTooltip customerCountLabel;
@@ -51,8 +52,17 @@ public class GameSettingsButtonHandler : LeverListener {
         difficultyLevelLabel.Reset();
     }
 
+    private int warningSide = 1;
+
     public override void OnLeverEngaged(NewtonVR.NVRLever lever)
     {
+        if(LevelManager.Instance.GetCurrentlyLoadedSaveFile() == null)
+        {
+            hatWarning.SetActive(true);
+            hatWarning.transform.localRotation = Quaternion.Euler(0, 0, Random.Range(10, 30) * warningSide);
+            warningSide *= -1;
+            return;
+        }
         Debug.Log("Starting level!", this);
         LevelManager.Instance.menuLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         WaveRules prefab = null;
