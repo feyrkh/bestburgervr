@@ -20,7 +20,7 @@ public class ClockTimer : MonoBehaviour {
 			if (secondsElapsed > secondsToRun)
 				secondsElapsed = secondsToRun;
 			if (secondsElapsed >= secondsToRun) {
-				SendMessage ("OnClockTimerElapsed", this);
+				SendMessageUpwards ("OnClockTimerElapsed", this);
                 if (restart) ResetClock();
 			}
 			hand.localRotation = Quaternion.Euler(new Vector3 (0, 0, 360 * (secondsElapsed / secondsToRun)));

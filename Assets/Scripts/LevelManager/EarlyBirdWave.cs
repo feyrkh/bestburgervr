@@ -69,7 +69,8 @@ public class EarlyBirdWave : WaveRules
         else
         {
             Debug.Log("Customer satisfied");
-            //yield return ScoreBurger(npc, burger);
+            Transform clock = npc.transform.FindChild("clock");
+            if (clock != null) Destroy(clock.gameObject);
             Destroy(burger);
             npc.GetComponent<NpcEnterStyle>().StopMovement();
             yield return npc.GetComponent<NpcExitStyle>().NpcExit();
@@ -78,6 +79,7 @@ public class EarlyBirdWave : WaveRules
             if (currentNpcs <= 0)
             {
                 float maxCoins = LevelManager.Instance.settings.difficultyLevel;
+                maxCoins += npcCount * 0.1f;
                 maxCoins *= maxCoins;
                 maxCoins *= 0.25f;
                 maxCoins /= 3;
