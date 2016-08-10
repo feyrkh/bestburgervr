@@ -2,6 +2,48 @@
 using System.Collections.Generic;
 using System;
 
+
+[Serializable]
+public class SaveHatListEntry
+{
+    public List<SaveHatFlairEntry> flair;
+    public float b;
+    public float g;
+    public float r;
+    public float coins;
+}
+
+[Serializable]
+public class SaveHatFlairEntry
+{
+    public string id;
+    public Vector3Serializer position;
+    public QuaternionSerializer rotation;
+    public string icon;
+    public float size;
+    public bool shiny;
+
+    public SaveHatFlairEntry() { }
+
+    public SaveHatFlairEntry(SaveHat hat, HatFlair flair)
+    {
+        this.id = flair.FlairId;
+        Transform originalParent = flair.transform.parent;
+        flair.transform.parent = hat.transform;
+        this.position = new Vector3Serializer().Fill(flair.transform.localPosition);
+        this.rotation = new QuaternionSerializer().Fill(flair.transform.localRotation);
+        flair.transform.parent = originalParent;
+        this.icon = flair.flairIcon;
+        this.size = flair.flairSize;
+        this.shiny = flair.flairShiny == 1;
+    }
+
+    public override string ToString()
+    {
+        return "FlairId{icon=" + icon + ", size=" + size + ", shiny=" + shiny + "}";
+    }
+}
+
 public class SaveHatShelf : MonoBehaviour {
     public int shelfIndex = 0;
     public int hatCount = 5;
@@ -165,45 +207,4 @@ internal class FlairIdSearch
 public class SaveHatData
 {
     public Dictionary<int, SaveHatListEntry> saveHats = new Dictionary<int, SaveHatListEntry>();
-}
-
-[Serializable]
-public class SaveHatListEntry
-{
-    public List<SaveHatFlairEntry> flair;
-    public float b;
-    public float g;
-    public float r;
-    public float coins;
-}
-
-[Serializable]
-public class SaveHatFlairEntry
-{
-    public string id;
-    public Vector3Serializer position;
-    public QuaternionSerializer rotation;
-    public string icon;
-    public float size;
-    public bool shiny;
-
-    public SaveHatFlairEntry() { }
-
-    public SaveHatFlairEntry(SaveHat hat, HatFlair flair)
-    {
-        this.id = flair.FlairId;
-        Transform originalParent = flair.transform.parent;
-        flair.transform.parent = hat.transform;
-        this.position = new Vector3Serializer().Fill(flair.transform.localPosition);
-        this.rotation = new QuaternionSerializer().Fill(flair.transform.localRotation);
-        flair.transform.parent = originalParent;
-        this.icon = flair.flairIcon;
-        this.size = flair.flairSize;
-        this.shiny = flair.flairShiny == 1;
-    }
-
-    public override string ToString()
-    {
-        return "FlairId{icon=" + icon + ", size=" + size + ", shiny="+ shiny + "}";
-    }
 }

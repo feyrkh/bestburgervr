@@ -21,7 +21,11 @@ public class HatFlair : MonoBehaviour {
         "top_bun",
         "unhappy",
         "very_happy",
-        "very_unhappy"
+        "very_unhappy",
+        "Coins/1dollar",
+        "Coins/5dollar",
+        "Coins/20dollar",
+        "Coins/quarter"
     };
 
     public string flairIcon = null;
