@@ -60,7 +60,6 @@ public class HatFlair : MonoBehaviour {
         if (FlairId == null)
         {
             FlairId = System.Guid.NewGuid().ToString();
-            Debug.Log("new flair id generated: " + FlairId);
         }
         if (flairIcon == null || flairIcon == "")
         {

@@ -24,6 +24,11 @@ public class LevelManager : Singleton<LevelManager>
         gameObject.SendMessage("OnLevelWasLoaded");
     }
 
+    public SaveHatListEntry GetCurrentlyLoadedSaveFile()
+    {
+        return SaveHatShelf.GetSaveFile(currentlyLoadedSaveFile);
+    }
+
     public bool WearHat(SaveHat hat)
     {
         if(!wearingHat || hat.saveFileId == currentlyLoadedSaveFile)

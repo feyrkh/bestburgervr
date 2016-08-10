@@ -15,6 +15,29 @@ public class BurgerToothpick : MonoBehaviour {
     {
         layer = 1 << ingredientLayer;
         toothpickLength = transform.FindChild("pick").GetComponent<Renderer>().bounds.extents.y * 2;
+        // If the player has decorated with flair, have a chance to choose one of those to replace the colored tip
+        Transform sign = transform.FindChild("sign");
+        var saveFile = LevelManager.Instance.GetCurrentlyLoadedSaveFile();
+        bool fancyPick = false;
+        if(saveFile != null && saveFile.toothpickFlair != null && saveFile.toothpickFlair.Count > 0)
+        {
+            int idx = UnityEngine.Random.Range(0, saveFile.toothpickFlair.Count+3);
+            if(idx < saveFile.toothpickFlair.Count)
+            {
+                fancyPick = true;
+                var flair = saveFile.toothpickFlair[idx];
+                float size = 2f * (flair.size / 0.04f);
+                sign.transform.localScale = new Vector3(size, sign.transform.localScale.y, size);
+                Texture textureResource = Resources.Load<Texture>(flair.icon);
+                sign.GetComponent<MeshRenderer>().material.mainTexture = textureResource;
+                sign.GetComponent<MeshRenderer>().material.SetFloat(Shader.PropertyToID("_Metallic"), flair.shiny ? .95f : 0.05f);
+            }
+        } 
+        if(!fancyPick)
+        {
+            Color color = UnityEngine.Random.ColorHSV();
+            sign.GetComponent<Renderer>().material.color = color;
+        }
     }
 
 

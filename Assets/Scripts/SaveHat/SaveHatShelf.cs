@@ -11,6 +11,7 @@ public class SaveHatListEntry
     public float g;
     public float r;
     public float coins;
+    public List<SaveHatFlairEntry> toothpickFlair;
 }
 
 [Serializable]
@@ -25,7 +26,7 @@ public class SaveHatFlairEntry
 
     public SaveHatFlairEntry() { }
 
-    public SaveHatFlairEntry(SaveHat hat, HatFlair flair)
+    public SaveHatFlairEntry(GameObject hat, HatFlair flair)
     {
         this.id = flair.FlairId;
         Transform originalParent = flair.transform.parent;
@@ -61,11 +62,14 @@ public class SaveHatShelf : MonoBehaviour {
         if(hatFlairPrefab != null) globalHatFlairPrefab = hatFlairPrefab;
         Load();
         BuildHats();
+        BuildToothpickFlair();
     }
     
     public static SaveHatListEntry GetSaveFile(int id)
     {
-        return saveData.saveHats[id];
+        if(saveData.saveHats.ContainsKey(id))
+            return saveData.saveHats[id];
+        return null;
     }
 
     public static void Save()
@@ -88,13 +92,60 @@ public class SaveHatShelf : MonoBehaviour {
             }
             catch (Exception e)
             {
-                Debug.Log("Failed to load save file" + e.Message);
+                Debug.LogError("Failed to load save file" + e.Message);
             }
         }
         if (saveData == null)
         {
             saveData = new SaveHatData();
         }
+    }
+
+    private void BuildToothpickFlair()
+    {
+        int saveFileId = LevelManager.Instance.currentlyLoadedSaveFile;
+        Debug.Log("Restoring toothpick flair for save file " + saveFileId);
+        if (!saveData.saveHats.ContainsKey(saveFileId))
+        {
+            Debug.Log("No save file for " + saveFileId + " found");
+            return;
+        }
+        SaveHatListEntry curData = GetSaveFile(saveFileId);
+        ToothpickJarFlair jar = GameObject.FindObjectOfType<ToothpickJarFlair>();
+        if (jar == null)
+        {
+            Debug.Log("No toothpick jar found on the scene");
+            return;
+        }
+        if(jar.flairLoaded)
+        {
+            Debug.Log("Flair already loaded on the toothpick jar");
+            return;
+        }
+        jar.flairLoaded = true;
+        if (curData != null && curData.toothpickFlair != null)
+        {
+            foreach (var entry in curData.toothpickFlair)
+            {
+                Debug.Log("Restoring toothpick flair " + entry.icon);
+                HatFlair newFlair = ConstructFlair(jar.transform, entry);
+                newFlair.GetComponent<Sticky>().AttachToBody(jar.GetComponent<Rigidbody>());
+                Debug.Log("Restored flair " + newFlair.FlairId + " to jar " + saveFileId);
+            }
+        }
+    }
+
+    public static HatFlair ConstructFlair(Transform parent, SaveHatFlairEntry entry)
+    {
+        HatFlair newFlair = (HatFlair)Instantiate(globalHatFlairPrefab, parent, false);
+        newFlair.transform.localPosition = entry.position.V3;
+        newFlair.transform.localRotation = entry.rotation.Q;
+        newFlair.transform.SetParent(null);
+        newFlair.flairIcon = entry.icon;
+        newFlair.FlairId = entry.id;
+        newFlair.flairSize = entry.size;
+        newFlair.flairShiny = entry.shiny ? 1 : 0;
+        return newFlair;
     }
 
     private void BuildHats()
@@ -146,15 +197,8 @@ public class SaveHatShelf : MonoBehaviour {
         curHat.flairLoaded = true;
         foreach (var entry in curData.flair)
         {
-            HatFlair newFlair = (HatFlair)Instantiate(globalHatFlairPrefab, curHat.transform, false);
-            newFlair.transform.localPosition = entry.position.V3;
-            newFlair.transform.localRotation = entry.rotation.Q;
-            newFlair.transform.SetParent(null);
+            HatFlair newFlair = ConstructFlair(curHat.transform, entry);
             newFlair.GetComponent<Sticky>().AttachToBody(curHat.GetComponent<Rigidbody>());
-            newFlair.flairIcon = entry.icon;
-            newFlair.FlairId = entry.id;
-            newFlair.flairSize = entry.size;
-            newFlair.flairShiny = entry.shiny ? 1 : 0;
             Debug.Log("Restored flair " + newFlair.FlairId + " to hat " + curHat.saveFileId);
         }
     }
@@ -182,8 +226,38 @@ public class SaveHatShelf : MonoBehaviour {
             return;
         }
         curData = saveData.saveHats[saveHat.saveFileId];
-        curData.flair.Add(new SaveHatFlairEntry(saveHat, flair));
+        curData.flair.Add(new SaveHatFlairEntry(saveHat.gameObject, flair));
         Debug.Log("Added flair " + flair.FlairId + " to hat " + saveHat.saveFileId);
+        Save();
+    }
+
+    internal static void RemoveToothpickFlair(HatFlair flair)
+    {
+        SaveHatListEntry curData = null;
+        int saveFileId = LevelManager.Instance.currentlyLoadedSaveFile;
+        if (!saveData.saveHats.ContainsKey(saveFileId))
+        {
+            return;
+        }
+        curData = saveData.saveHats[saveFileId];
+        var removedCount = curData.toothpickFlair.RemoveAll(new FlairIdSearch(flair.FlairId).Matches);
+        Debug.Log("Removed flair " + flair.FlairId + " from toothpick jar " + saveFileId + "; removedCount=" + removedCount);
+        Save();
+    }
+
+    internal static void AddToothpickFlair(GameObject toothpickJar, HatFlair flair)
+    {
+        SaveHatListEntry curData = null;
+        int saveFileId = LevelManager.Instance.currentlyLoadedSaveFile;
+        if (!saveData.saveHats.ContainsKey(saveFileId))
+        {
+            Debug.Log("No save file found: " + saveFileId);
+            return;
+        }
+        curData = saveData.saveHats[saveFileId];
+        if (curData.toothpickFlair == null) curData.toothpickFlair = new List<SaveHatFlairEntry>();
+        curData.toothpickFlair.Add(new SaveHatFlairEntry(toothpickJar, flair));
+        Debug.Log("Added flair " + flair.FlairId + " to toothpick jar " + saveFileId);
         Save();
     }
 }
