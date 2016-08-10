@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LevelManager : Singleton<LevelManager>
 {
@@ -8,8 +9,7 @@ public class LevelManager : Singleton<LevelManager>
     public LevelSettings settings;
     public WaveRules waveRules;
     public OrderRules orderRules;
-    public NpcEnterStyle npcEnterStyle;
-    public NpcExitStyle npcExitStyle;
+    public BurgerScorer burgerScorer;
     public Transform startPosition;
     public Transform orderPosition;
     public float coinCount = 0;
@@ -112,8 +112,7 @@ public class LevelManager : Singleton<LevelManager>
         }
         waveRules = levelPrefab.GetComponent<WaveRules>();
         orderRules = levelPrefab.GetComponent<OrderRules>();
-        npcEnterStyle = levelPrefab.GetComponent<NpcEnterStyle>();
-        npcExitStyle = levelPrefab.GetComponent<NpcExitStyle>();
+        burgerScorer = levelPrefab.GetComponent<BurgerScorer>();
         StartLevel();
     }
 
@@ -144,19 +143,28 @@ public class LevelManager : Singleton<LevelManager>
 
 public class NpcEnterStyle : MonoBehaviour
 {
-    public virtual IEnumerator NpcEnter(Transform npc)
+    public virtual void StopMovement()
     {
-        npc.position = LevelManager.Instance.orderPosition.position;
+        StopCoroutine("NpcEnter");
+    }
+
+    public virtual IEnumerator NpcEnter()
+    {
+        transform.position = LevelManager.Instance.orderPosition.position;
         yield return null;
     }
 }
 
 public class NpcExitStyle : MonoBehaviour
 {
-    public virtual IEnumerator NpcExit(Transform npc)
+    public virtual void StopMovement()
     {
-        Debug.Log("Destroying npc", npc);
-        Destroy(npc.gameObject);
+        StopCoroutine("NpcExit");
+    }
+
+    public virtual IEnumerator NpcExit()
+    {
+        Destroy(gameObject);
         yield return null;
     }
 }
@@ -181,11 +189,12 @@ public abstract class WaveRules : MonoBehaviour
 
     protected virtual void OnStartLevel()
     {
-        SpawnWave();
+        StartCoroutine("SpawnWave");
     }
 
     protected virtual void OnEndLevel()
     {
+        LevelManager.Instance.ChangeScene(LevelManager.Instance.menuLevel, false, 2);
     }
 
     public virtual bool IsRunning()
