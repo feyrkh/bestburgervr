@@ -40,7 +40,7 @@ public class EarlyBirdWave : WaveRules
                 NpcOrder currentNpc = (NpcOrder)Instantiate(npcPrefab, LevelManager.Instance.startPosition.position, LevelManager.Instance.startPosition.rotation);
                 currentNpc.GetComponent<NpcEnterStyle>().StartCoroutine("NpcEnter");
                 currentNpc.SetOrder(specialOrder.GetOrder());
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(LevelManager.Instance.settings.difficultyLevel);
             }
         }
     }
@@ -61,6 +61,7 @@ public class EarlyBirdWave : WaveRules
             {
                 GameObject angryFace = (GameObject)Instantiate(angryFacePrefab, npc.transform);
                 angryFace.transform.localPosition = new Vector3(0, 1f, 0);
+                angryFace.name = "angryFace";
                 npc.acceptingOrders = true;
             }
             Destroy(burger.gameObject);
@@ -81,7 +82,7 @@ public class EarlyBirdWave : WaveRules
                 maxCoins *= 0.25f;
                 maxCoins /= 3;
                 maxCoins = Mathf.Max(0.25f, maxCoins);
-                if (tipJar != null) yield return tipJar.SpawnCoinsCoroutine(Random.Range(0, maxCoins) + 0.25f);
+                if (tipJar != null) tipJar.SpawnCoins(Random.Range(0, maxCoins) + 0.25f);
                 Debug.Log("Finished giving tip, spawning next wave");
                 StartCoroutine("SpawnWave");
             }

@@ -5,8 +5,8 @@ public class NpcEnterStyleEarlyBird : NpcEnterStyle {
     public override IEnumerator NpcEnter()
     {
         Vector3 offset = new Vector3(Random.Range(-0.9f, 0.9f), 0, Random.Range(-0.1f, 0.1f));
-        float timeOffset = Random.Range(0, 6f);
+        float timeOffset = Random.Range(0, 25f);
         transform.position = LevelManager.Instance.startPosition.position;
-        yield return MoveUtil.MoveOverSeconds(transform.gameObject, LevelManager.Instance.orderPosition.position+offset, 8+timeOffset);
+        yield return MoveUtil.MoveOverSeconds(transform.gameObject, LevelManager.Instance.orderPosition.position+offset, 15+timeOffset);
     }
 }
