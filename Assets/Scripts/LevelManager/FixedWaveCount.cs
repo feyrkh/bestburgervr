@@ -18,7 +18,7 @@ public class FixedWaveCount: WaveRules
         else
         {
             currentNpc = (NpcOrder)Instantiate(npcPrefab, LevelManager.Instance.startPosition.position, LevelManager.Instance.startPosition.rotation);
-            yield return LevelManager.Instance.npcEnterStyle.NpcEnter(currentNpc.transform);
+            yield return currentNpc.GetComponent<NpcEnterStyle>().NpcEnter();
             LevelManager.Instance.orderRules.GenerateOrder(currentNpc);
         }
    }
@@ -26,8 +26,9 @@ public class FixedWaveCount: WaveRules
     public override IEnumerator NpcServed(NpcOrder npc, CompletedBurger burger)
     {
         Debug.Log("Npc was served, sending this one away then spawning a new wave");
+        currentNpc.GetComponent<NpcEnterStyle>().StopMovement();
         yield return ScoreBurger(npc, burger);
-        yield return LevelManager.Instance.npcExitStyle.NpcExit(npc.transform);
+        yield return npc.GetComponent<NpcExitStyle>().NpcExit();
         Debug.Log("Npc exited, spawning a new wave");
         StartCoroutine("SpawnWave");
     }

@@ -7,7 +7,7 @@ public class NpcOrder : MonoBehaviour {
     public IngredientsList orderLabelPrefab;
     public Transform trayPosition;
     IngredientsList orderLabel;
-    bool acceptingOrders = true;
+    public bool acceptingOrders = true;
     string[] desiredIngredients;
     string[] actualIngredients;
     float timeSinceOrderStarted;
@@ -57,11 +57,11 @@ public class NpcOrder : MonoBehaviour {
         if (!acceptingOrders) return;
         if (other.transform.parent != null && other.transform.parent.gameObject.CompareTag("Food"))
         {
+            other.transform.parent.gameObject.tag = "Untagged";
             acceptingOrders = false;
             Debug.Log("Received a food item, taking it", this);
             completedBurger = other.transform.parent.gameObject.GetComponent<CompletedBurger>();
             ReceiveCompletedBurger(completedBurger);
-
         }
     }
 
