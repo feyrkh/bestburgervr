@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: b6c5d4a18f2c433458db576cbb37426e
-timeCreated: 1470779950
+guid: 6cc1e3f8d3c47ae4588763ed18e2d964
+timeCreated: 1470874999
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -15,8 +15,8 @@ ModelImporter:
     2300002: Cube.003
     3300000: Cube.002
     3300002: Cube.003
-    4300000: Cube.003
-    4300002: Cube.002
+    4300000: Cube.002
+    4300002: Cube.003
   materials:
     importMaterials: 1
     materialName: 0
