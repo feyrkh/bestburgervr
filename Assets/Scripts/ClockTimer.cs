@@ -7,10 +7,11 @@ public class ClockTimer : MonoBehaviour {
 	private float secondsElapsed = 0;
 	public Transform hand;
     public bool restart = true;
+    public bool isRunning = true;
 
 	// Use this for initialization
 	void Start () {
-	
+	    isRunning = true;
 	}
 	
 	// Update is called once per frame
@@ -21,13 +22,16 @@ public class ClockTimer : MonoBehaviour {
 				secondsElapsed = secondsToRun;
 			if (secondsElapsed >= secondsToRun) {
 				SendMessageUpwards ("OnClockTimerElapsed", this);
+                isRunning = false;
                 if (restart) ResetClock();
 			}
 			hand.localRotation = Quaternion.Euler(new Vector3 (0, 0, 360 * (secondsElapsed / secondsToRun)));
-		}
+            isRunning = false;
+        }
 	}
 
 	public void ResetClock() {
 		secondsElapsed = 0;
+        isRunning = true;
 	}
 }
